@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Японский в кармане</title>
+<meta name="description" content="Карманный разговорник для поездки в Японию: фразы по ситуациям, произношение, озвучка, словарь и карточки. Работает без интернета.">
+<meta name="theme-color" content="#BC002D">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Японский">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Zen+Maru+Gothic:wght@500;700&display=swap">
+<link rel="stylesheet" href="app.css">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<header class="topbar"><div class="wrap topbar-in">
+  <a class="brand" href="#home"><span class="brand-jp" id="brand-native"></span><span class="brand-ru">в кармане</span></a>
+  <div class="top-actions">
+    <a class="icon-btn" href="#read" aria-label="Как читать и настройки" title="Как читать и настройки"><span class="kana-ic" lang="ja">あ</span></a>
+    <a class="icon-btn" href="#search" aria-label="Поиск" title="Поиск"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></a>
+  </div>
+</div></header>
+
+<main id="view" class="wrap"></main>
+
+<nav class="tabbar" aria-label="Разделы"><div class="tabbar-in">
+  <a class="tab" data-tab="home" href="#home"><svg class="ic" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>Главная</a>
+  <a class="tab" data-tab="words" href="#words"><svg class="ic" viewBox="0 0 24 24"><path d="M5 4h12a2 2 0 0 1 2 2v14H7a2 2 0 0 1-2-2z"/><path d="M5 18a2 2 0 0 1 2-2h12"/></svg>Словарь</a>
+  <a class="tab" data-tab="build" href="#build"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="8" height="7" rx="1.5"/><rect x="13" y="4" width="8" height="7" rx="1.5"/><rect x="3" y="13" width="18" height="7" rx="1.5"/></svg>Конструктор</a>
+  <a class="tab" data-tab="learn" href="#learn"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="7" width="14" height="14" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg>Учить</a>
+  <a class="tab" data-tab="fav" href="#fav"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg>Избранное</a>
+</div></nav>
+
+<div id="show" class="show" hidden role="dialog" aria-modal="true" aria-label="Фраза для показа">
+  <div class="show-bar">
+    <span class="show-hint">Покажи этот экран собеседнику</span>
+    <button class="tool" data-act="close-show" id="show-close" aria-label="Закрыть"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <div class="show-body">
+    <div class="show-jp" id="show-jp"></div>
+    <div class="show-kana" id="show-kana"></div>
+    <div class="show-en" id="show-en"></div>
+    <div class="show-ru" id="show-ru"></div>
+  </div>
+  <div class="show-tools" id="show-tools"></div>
+</div>
+<div id="toast" class="toast" hidden></div>
+
+<script src="packs/ja.js"></script>
+<script src="packs/ja-audio.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,1336 @@
+<title>Японский в кармане</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Zen+Maru+Gothic:wght@500;700&display=swap">
+<style>
+/* Layout: one phone-first column, trip drawn as a Tokyo-metro line; each topic wears a real metro line colour */
+:root{
+  --bg:#EEF1F4; --surface:#FFFFFF; --surface-2:#E3E8ED; --ink:#14181C; --muted:#56616C; --line:#D3DAE1;
+  --accent:#BC002D; --accent-soft:#F9E4E8; --on-accent:#FFFFFF;
+  --note:#FFF5D1; --note-ink:#4F3B00; --good:#1E8A4C; --bad:#C62828;
+  --font-ui:"Nunito","Segoe UI",system-ui,-apple-system,sans-serif;
+  --font-jp:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Yu Gothic","Meiryo","Noto Sans JP",sans-serif;
+  --r:16px; --nav-h:64px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1114; --surface:#181C21; --surface-2:#232930; --ink:#ECEFF3; --muted:#9BA6B2; --line:#2D343C;
+  --accent:#FF5470; --accent-soft:#3A1720; --on-accent:#16070B;
+  --note:#2D2712; --note-ink:#F1DB8E; --good:#4CC17E; --bad:#FF6B6B; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1114; --surface:#181C21; --surface-2:#232930; --ink:#ECEFF3; --muted:#9BA6B2; --line:#2D343C;
+  --accent:#FF5470; --accent-soft:#3A1720; --on-accent:#16070B;
+  --note:#2D2712; --note-ink:#F1DB8E; --good:#4CC17E; --bad:#FF6B6B; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-ui);font-size:16px;line-height:1.5;-webkit-text-size-adjust:100%}
+body.lock{overflow:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:8px}
+[lang="ja"]{font-family:var(--font-jp)}
+.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+.wrap{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar-in{display:flex;align-items:center;justify-content:space-between;height:56px;gap:12px}
+.brand{display:flex;align-items:baseline;gap:8px;text-decoration:none}
+.brand-jp{font-weight:700;font-size:1.3rem;color:var(--accent)}
+.brand-ru{font-weight:900;font-size:1rem;letter-spacing:.01em}
+.top-actions{display:flex;gap:8px}
+.icon-btn{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;border:1px solid var(--line);background:var(--surface);text-decoration:none;cursor:pointer}
+.icon-btn .kana-ic{font-family:var(--font-jp);font-weight:700;font-size:1.15rem;line-height:1}
+
+main{padding-block:20px calc(var(--nav-h) + env(safe-area-inset-bottom,0px) + 32px)}
+
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+.tabbar-in{max-width:760px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);height:var(--nav-h)}
+.tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-decoration:none;color:var(--muted);font-size:.72rem;font-weight:800}
+.tab.on{color:var(--accent)}
+.tab.on .ic{stroke-width:2.3}
+
+h1,h2,h3{text-wrap:balance;margin:0}
+h1{font-weight:900;font-size:clamp(1.9rem,7vw,2.6rem);line-height:1.1;letter-spacing:-.01em}
+h2{font-weight:900;font-size:1.3rem;line-height:1.2}
+.lead{color:var(--muted);font-size:1.02rem;margin:10px 0 0;max-width:62ch}
+.eyebrow{font-size:.75rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.sec{margin-top:32px;scroll-margin-top:72px}
+.sec>h2{margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.sec>h2 small{font-size:.8rem;color:var(--muted);font-weight:700}
+.h-sm{font-size:1rem;font-weight:900;margin:22px 0 10px}
+.stack{display:flex;flex-direction:column;gap:10px}
+
+/* hero */
+.hero{display:flex;flex-direction:column;gap:6px}
+.stats{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;font-weight:800;font-size:.9rem;font-variant-numeric:tabular-nums}
+.stats span{display:flex;align-items:center;gap:6px}
+.stats span::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent)}
+
+/* quick chips */
+.quick{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 6px;scrollbar-width:none;margin:0 -2px}
+.quick::-webkit-scrollbar{display:none}
+.qchip{flex:none;display:flex;flex-direction:column;align-items:flex-start;gap:0;padding:10px 14px;border-radius:14px;border:1px solid var(--line);background:var(--surface);cursor:pointer;text-align:left;max-width:200px}
+.qchip .q-jp{font-family:var(--font-jp);font-weight:700;font-size:1.05rem;white-space:nowrap}
+.qchip .q-ru{font-size:.8rem;color:var(--muted);font-weight:700;white-space:nowrap}
+
+/* metro line map */
+.linemap{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:6px 14px}
+.stop{position:relative;display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:14px;align-items:center;padding:10px 0;text-decoration:none}
+.stop::before{content:"";position:absolute;left:21px;top:0;bottom:0;width:6px;background:var(--lc)}
+.stop:first-child::before{top:50%}
+.stop:last-child::before{bottom:50%}
+.stop+.stop{border-top:1px dashed var(--line)}
+.badge{position:relative;z-index:1;width:48px;height:48px;border-radius:50%;border:5px solid var(--lc);background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;flex:none;font-variant-numeric:tabular-nums}
+.badge b{font-size:.72rem;font-weight:900}
+.badge i{font-style:normal;font-size:1rem;font-weight:900}
+.badge.big{width:68px;height:68px;border-width:7px}
+.badge.big b{font-size:.9rem}.badge.big i{font-size:1.35rem}
+.stop-t{display:block;font-weight:900;font-size:1.05rem;line-height:1.25}
+.stop-s{display:block;color:var(--muted);font-size:.88rem;line-height:1.3}
+.stop-n{font-size:.78rem;color:var(--muted);font-weight:800;white-space:nowrap;display:flex;align-items:center;gap:2px}
+.stop-n .ic{width:16px;height:16px}
+.map-note{font-size:.82rem;color:var(--muted);margin:8px 2px 0}
+
+/* tools grid */
+.tools-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.tool-tile{display:flex;flex-direction:column;gap:4px;padding:14px;border-radius:var(--r);background:var(--surface);border:1px solid var(--line);text-decoration:none;min-width:0}
+.tool-tile .tt-jp{font-family:var(--font-jp);font-weight:700;font-size:1.5rem;color:var(--accent);line-height:1.2}
+.tool-tile b{font-weight:900}
+.tool-tile span{font-size:.86rem;color:var(--muted);line-height:1.35}
+
+/* situation header */
+.back{display:inline-flex;align-items:center;gap:4px;font-weight:800;color:var(--muted);text-decoration:none;font-size:.9rem;margin-bottom:6px}
+.back .ic{width:18px;height:18px}
+.track{position:relative;height:76px;display:flex;align-items:center;gap:12px}
+.track::before{content:"";position:absolute;left:0;right:0;top:50%;height:8px;margin-top:-4px;background:var(--lc);border-radius:4px}
+.track .nexttag{position:relative;z-index:1;margin-left:auto;background:var(--surface);border:2px solid var(--lc);border-radius:999px;padding:3px 10px;font-size:.75rem;font-weight:800;color:var(--ink)}
+.jump{display:flex;gap:8px;overflow-x:auto;padding:14px 2px 4px;scrollbar-width:none;margin:0 -2px}
+.jump::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;font-weight:800;font-size:.88rem;cursor:pointer;text-decoration:none;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chips-wrap{display:flex;flex-wrap:wrap;gap:8px}
+
+/* phrase card */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 12px 14px 16px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px}
+.card.hear{border-style:dashed;border-width:2px}
+.hear-tag{display:inline-block;font-size:.7rem;font-weight:900;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.jp{font-family:var(--font-jp);font-weight:700;font-size:1.55rem;line-height:1.35;overflow-wrap:anywhere}
+.kana{font-family:var(--font-jp);color:var(--muted);font-size:.9rem;line-height:1.4;overflow-wrap:anywhere}
+.say{font-weight:900;font-size:1.12rem;color:var(--accent);margin-top:4px;line-height:1.3}
+.romaji{color:var(--muted);font-style:italic;font-size:.9rem}
+.mean{font-weight:800;margin-top:6px;line-height:1.35}
+.en{font-size:.9rem;color:var(--muted);margin-top:2px}
+.en span{font-size:.66rem;font-weight:900;letter-spacing:.06em;border:1px solid var(--line);border-radius:4px;padding:1px 4px;margin-right:4px;vertical-align:1px}
+.note{margin:10px 0 0;background:var(--note);color:var(--note-ink);border-radius:10px;padding:8px 11px;font-size:.92rem;line-height:1.45}
+.card-tools{display:flex;flex-direction:column;gap:6px}
+.tool{width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;cursor:pointer;padding:0}
+.tool .ic{width:20px;height:20px}
+.tool.sm{width:38px;height:38px}
+.tool.fav.on{color:var(--accent);border-color:var(--accent)}
+.tool.fav.on .ic{fill:currentColor}
+.no-romaji .romaji{display:none}
+.no-en .en{display:none}
+.no-kana .kana,.no-kana .row-kana{display:none}
+
+/* dialog */
+.dlg{display:flex;flex-direction:column;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px}
+.dlg-title{font-weight:800;color:var(--muted);font-size:.85rem}
+.bub{max-width:88%;padding:10px 12px;border-radius:16px;background:var(--surface-2);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;align-items:start}
+.bub.y{align-self:flex-end;background:var(--accent-soft);border-bottom-right-radius:4px}
+.bub.t{align-self:flex-start;border-bottom-left-radius:4px}
+.bub .who{grid-column:1/-1;font-size:.68rem;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+.bub .jp{font-size:1.12rem}
+.bub .say{font-size:.95rem;margin-top:0}
+.bub .mean{font-weight:600;margin-top:2px;font-size:.92rem}
+.bub .tool{width:34px;height:34px;background:transparent}
+
+/* tips */
+.tips{list-style:none;margin:0;padding:4px 14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.tips li{position:relative;padding:11px 0 11px 28px;line-height:1.45}
+.tips li+li{border-top:1px dashed var(--line)}
+.tips li::before{content:"";position:absolute;left:3px;top:17px;width:12px;height:12px;border-radius:50%;border:3px solid var(--lc,var(--accent));background:var(--surface)}
+.src{font-size:.85rem;color:var(--muted);margin:10px 2px 0}
+.src a{color:var(--accent);font-weight:800}
+
+/* figures */
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin:0}
+.fig svg{display:block;width:100%;height:auto}
+.fig figcaption,.cap{font-size:.9rem;color:var(--muted);margin-top:10px;line-height:1.45}
+.fig h3{font-size:1rem;font-weight:900;margin-bottom:10px}
+.figs{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+.st{stroke:var(--ink);fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.st-th{stroke-width:2}
+.fl-s{fill:var(--surface)}.fl-2{fill:var(--surface-2)}.fl-a{fill:var(--accent)}.fl-as{fill:var(--accent-soft)}.fl-ink{fill:var(--ink)}.fl-m{fill:var(--muted)}
+.tx{fill:var(--ink);font-family:var(--font-jp);font-weight:700}
+.tx-ui{fill:var(--ink);font-family:var(--font-ui);font-weight:800}
+.tx-m{fill:var(--muted);font-family:var(--font-ui);font-weight:700}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.two>div{min-width:0;text-align:center;font-size:.88rem;font-weight:700}
+.steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.step{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;min-width:0}
+.step b{width:24px;height:24px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-size:.8rem;font-weight:900}
+.step span{font-size:.76rem;font-weight:700;line-height:1.25}
+.legend{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px}
+.legend div{min-width:0;font-size:.82rem;line-height:1.3;text-align:center}
+.legend b{display:block;font-family:var(--font-jp);font-size:1rem}
+.dirs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.dir{background:var(--surface-2);border-radius:14px;padding:12px 6px;display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;min-width:0}
+.dir svg{width:40px;height:40px}
+.dir .d-jp{font-family:var(--font-jp);font-weight:700;font-size:1.2rem}
+.dir .d-c{font-weight:900;color:var(--accent);font-size:.95rem}
+.dir .d-r{font-size:.82rem;color:var(--muted);font-weight:700}
+.tm{display:grid;grid-template-columns:minmax(0,190px) minmax(0,1fr);gap:14px;align-items:center}
+.tm ol,.bus ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:.92rem;line-height:1.4}
+@media (max-width:440px){.tm{grid-template-columns:minmax(0,1fr)}.tm svg{max-width:220px;margin:0 auto}}
+.board{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));border-radius:10px;overflow:hidden;background:#101418;color:#F4C542;font-variant-numeric:tabular-nums;text-align:center;font-weight:800;font-size:.78rem}
+.board div{padding:5px 0;border-right:1px solid #2a3036}
+.board .n{color:#E7ECF0;background:#1b2127}
+.board .hit{background:#F4C542;color:#101418}
+.seiri{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:64px;height:84px;border-radius:6px;background:#F7F3E8;color:#1b1b1b;border:1px solid #c9c2ad;flex:none;transform:rotate(-4deg)}
+.seiri span{font-size:.72rem;font-weight:700}
+.seiri b{font-size:1.9rem;line-height:1;font-weight:900}
+.bus-top{display:flex;gap:14px;align-items:center;margin-bottom:12px}
+.bus-top .board{flex:1;min-width:0}
+.tags{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.ptag{position:relative;background:var(--surface-2);border-radius:8px 18px 18px 8px;padding:12px 12px 12px 26px;display:flex;flex-direction:column;min-width:0}
+.ptag::before{content:"";position:absolute;left:10px;top:50%;width:8px;height:8px;margin-top:-4px;border-radius:50%;background:var(--surface);box-shadow:inset 0 0 0 2px var(--line)}
+.ptag strong{font-size:1.35rem;font-weight:900;font-variant-numeric:tabular-nums}
+.ptag small{font-family:var(--font-jp);font-weight:700;font-size:1rem;color:var(--accent)}
+.ptag em{font-style:normal;font-size:.8rem;color:var(--muted);line-height:1.3}
+.sos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.sos div{background:var(--surface-2);border-radius:14px;padding:12px;min-width:0}
+.sos strong{display:block;font-size:2.2rem;font-weight:900;line-height:1;color:var(--bad);font-variant-numeric:tabular-nums}
+.sos span{font-size:.85rem;font-weight:700}
+.sos small{display:block;font-family:var(--font-jp);color:var(--muted)}
+.hotline{margin-top:10px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;background:var(--surface-2);border-radius:14px;padding:12px}
+.hotline code{font-family:var(--font-ui);font-weight:900;font-size:1.15rem;user-select:all;font-variant-numeric:tabular-nums}
+.hotline span{font-size:.85rem;flex-basis:100%}
+.picto{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.picto div{background:var(--surface-2);border-radius:12px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0}
+.picto svg{width:44px;height:36px}
+.picto b{font-family:var(--font-jp);font-size:1.6rem;line-height:1.1}
+.picto span{font-size:.75rem;color:var(--muted);font-weight:700}
+
+/* words */
+.rows{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:6px;align-items:center;padding:8px 10px 8px 0}
+.row+.row{border-top:1px solid var(--line)}
+.row-main{display:grid;grid-template-columns:5.6em minmax(0,1fr);gap:12px;align-items:center;background:none;border:0;text-align:left;padding:4px 0 4px 14px;cursor:pointer;min-width:0}
+.row-jpw{display:flex;flex-direction:column;min-width:0}
+.row-jp{font-family:var(--font-jp);font-weight:700;font-size:1.3rem;line-height:1.25;overflow-wrap:anywhere}
+.row-kana{font-family:var(--font-jp);color:var(--muted);font-size:.74rem;line-height:1.3;overflow-wrap:anywhere}
+.row-txt{display:flex;flex-direction:column;min-width:0;line-height:1.3}
+.row-say{font-weight:900;color:var(--accent)}
+.row-txt .romaji{font-size:.82rem}
+.row-mean{font-weight:700;font-size:.95rem}
+.row-note{font-size:.82rem;color:var(--muted);margin-top:2px}
+.row.sign .row-jp{display:inline-block;align-self:flex-start;background:var(--ink);color:var(--bg);border-radius:6px;padding:2px 6px;font-size:1.15rem}
+.cat-intro{background:var(--note);color:var(--note-ink);border-radius:12px;padding:10px 12px;font-size:.94rem;margin:0 0 10px}
+.cat-h{margin:24px 0 10px;font-size:1.05rem;font-weight:900}
+.searchbox{display:flex;align-items:center;gap:8px;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:0 12px;margin-top:14px}
+.searchbox:focus-within{border-color:var(--accent)}
+.searchbox input{flex:1;min-width:0;border:0;background:transparent;font:inherit;font-size:1.05rem;padding:12px 0;color:var(--ink);outline:none}
+.empty{background:var(--surface);border:1px dashed var(--line);border-radius:var(--r);padding:22px 18px;color:var(--muted);text-align:center}
+.empty b{display:block;color:var(--ink);font-size:1.05rem;margin-bottom:4px}
+
+/* builder */
+.tpl-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:16px}
+.tpl{display:flex;flex-direction:column;align-items:flex-start;padding:10px 12px;border-radius:14px;border:1px solid var(--line);background:var(--surface);cursor:pointer;text-align:left;min-width:0}
+.tpl.on{border:2px solid var(--accent);padding:9px 11px;background:var(--accent-soft)}
+.tpl-jp{font-family:var(--font-jp);font-weight:700;font-size:1.05rem;overflow-wrap:anywhere}
+.tpl-ru{font-size:.82rem;font-weight:800;color:var(--muted)}
+.formula{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:18px}
+.blk{font-family:var(--font-jp);font-weight:700;font-size:1.35rem;padding:8px 12px;border-radius:12px;background:var(--surface-2);line-height:1.2}
+.blk.slot{background:var(--accent);color:var(--on-accent)}
+.blk.p0{border:2px dashed var(--muted);background:transparent}
+.plus{color:var(--muted);font-weight:900;font-size:1.2rem}
+.how{color:var(--muted);font-size:.95rem;margin:10px 0 0}
+
+/* learn */
+.flash{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:26px 18px;min-height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px}
+.flash .jp{font-size:clamp(2rem,9vw,3rem)}
+.flash .front-ru{font-size:1.5rem;font-weight:900;line-height:1.25}
+.flash .divider{width:40px;height:4px;border-radius:2px;background:var(--line);margin:12px 0}
+.learn-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:14px 0 10px;flex-wrap:wrap}
+.learn-top b{font-weight:900}
+.progress{height:6px;border-radius:3px;background:var(--surface-2);overflow:hidden;margin-bottom:12px}
+.progress i{display:block;height:100%;background:var(--accent);border-radius:3px}
+.btns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+.btn{border:0;border-radius:14px;padding:14px 12px;font-weight:900;font-size:1rem;cursor:pointer;background:var(--surface-2);text-decoration:none;text-align:center;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn.pri{background:var(--accent);color:var(--on-accent)}
+.btn.good{background:var(--good);color:#fff}
+.btn.wide{grid-column:1/-1}
+.deck-h{margin:20px 0 8px;font-weight:900;font-size:.95rem}
+.chip .cnt{font-size:.75rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.chip.on .cnt{color:inherit;opacity:.75}
+.seg{display:inline-flex;background:var(--surface-2);border-radius:12px;padding:3px;margin-top:14px}
+.seg button{border:0;background:transparent;border-radius:10px;padding:8px 12px;font-weight:800;font-size:.88rem;cursor:pointer}
+.seg button.on{background:var(--surface);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+
+/* read page */
+.prose{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.prose p{margin:0 0 10px;max-width:65ch}
+.prose ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px}
+.scripts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.scripts div{background:var(--surface-2);border-radius:14px;padding:12px;min-width:0}
+.scripts b{display:block;font-family:var(--font-jp);font-size:1.5rem;line-height:1.2}
+.scripts span{display:block;font-weight:900;font-size:.9rem}
+.scripts p{margin:4px 0 0;font-size:.82rem;color:var(--muted);line-height:1.35}
+@media (max-width:480px){.scripts{grid-template-columns:minmax(0,1fr)}}
+.setting{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0}
+.setting+.setting{border-top:1px solid var(--line)}
+.setting input{width:22px;height:22px;accent-color:var(--accent)}
+.setting label{font-weight:700}
+
+/* show overlay */
+.show{position:fixed;inset:0;z-index:100;background:var(--surface);display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top,0px) + 12px) max(20px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 18px) max(20px,env(safe-area-inset-left,0px))}
+.show-bar{display:flex;justify-content:space-between;align-items:center}
+.show-hint{font-size:.85rem;color:var(--muted);font-weight:700}
+.show-body{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:10px;overflow-y:auto;min-height:0}
+.show-jp{font-family:var(--font-jp);font-weight:700;line-height:1.25;overflow-wrap:anywhere;max-width:100%}
+.show-jp[data-len="s"]{font-size:clamp(3rem,17vw,8rem)}
+.show-jp[data-len="m"]{font-size:clamp(2.2rem,10vw,5rem)}
+.show-jp[data-len="l"]{font-size:clamp(1.7rem,7.5vw,3.6rem)}
+.show-kana{font-family:var(--font-jp);color:var(--muted);font-size:clamp(1rem,4.5vw,1.6rem)}
+.show-en{font-size:clamp(1.1rem,5vw,1.7rem);font-weight:800}
+.show-ru{color:var(--muted);font-size:1rem;margin-top:6px}
+.show-ru b{color:var(--accent)}
+.show-tools{display:flex;gap:10px;justify-content:center}
+.toast{position:fixed;left:50%;bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px) + 14px);transform:translateX(-50%);z-index:120;background:var(--ink);color:var(--bg);border-radius:12px;padding:10px 14px;font-weight:700;font-size:.9rem;max-width:calc(100% - 32px);text-align:center}
+@media (prefers-reduced-motion: no-preference){html{scroll-behavior:smooth}}
+</style>
+
+<header class="topbar"><div class="wrap topbar-in">
+  <a class="brand" href="#home"><span class="brand-jp" lang="ja">日本語</span><span class="brand-ru">в кармане</span></a>
+  <div class="top-actions">
+    <a class="icon-btn" href="#read" aria-label="Как читать и настройки"><span class="kana-ic" lang="ja">あ</span></a>
+    <a class="icon-btn" href="#search" aria-label="Поиск"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></a>
+  </div>
+</div></header>
+
+<main id="view" class="wrap"></main>
+
+<nav class="tabbar" aria-label="Разделы"><div class="tabbar-in">
+  <a class="tab" data-tab="home" href="#home"><svg class="ic" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>Главная</a>
+  <a class="tab" data-tab="words" href="#words"><svg class="ic" viewBox="0 0 24 24"><path d="M5 4h12a2 2 0 0 1 2 2v14H7a2 2 0 0 1-2-2z"/><path d="M5 18a2 2 0 0 1 2-2h12"/></svg>Словарь</a>
+  <a class="tab" data-tab="build" href="#build"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="8" height="7" rx="1.5"/><rect x="13" y="4" width="8" height="7" rx="1.5"/><rect x="3" y="13" width="18" height="7" rx="1.5"/></svg>Конструктор</a>
+  <a class="tab" data-tab="learn" href="#learn"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="7" width="14" height="14" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg>Учить</a>
+  <a class="tab" data-tab="fav" href="#fav"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg>Избранное</a>
+</div></nav>
+
+<div id="show" class="show" hidden role="dialog" aria-modal="true" aria-label="Фраза для показа">
+  <div class="show-bar">
+    <span class="show-hint">Покажи этот экран собеседнику</span>
+    <button class="tool" data-act="close-show" id="show-close" aria-label="Закрыть"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <div class="show-body">
+    <div class="show-jp" id="show-jp" lang="ja"></div>
+    <div class="show-kana" id="show-kana" lang="ja"></div>
+    <div class="show-en" id="show-en"></div>
+    <div class="show-ru" id="show-ru"></div>
+  </div>
+  <div class="show-tools" id="show-tools"></div>
+</div>
+<div id="toast" class="toast" hidden></div>
+
+<script>
+/* ---------- data: situations (trip order = station numbers) ---------- */
+const SITS = [
+{id:"basics",L:"G",col:"#F39700",title:"Волшебные слова",sub:"Привет, спасибо, извините",words:["questions","pointers","people"],
+intro:"Это слова-волшебники. Они нужны везде: в магазине, в поезде, в кафе. Если выучишь только их, тебя уже будут понимать и тебе будут улыбаться.",
+phrases:[
+["こんにちは","","конничива","konnichiwa","Здравствуйте / Привет","Hello","Говорят днём. Это и «привет», и «здравствуйте» сразу. Последний значок は здесь читается «ва»."],
+["おはようございます","","охаёо годзаимас","ohayō gozaimasu","Доброе утро","Good morning","Примерно до 10–11 утра. Друзьям можно коротко: «охаёо»."],
+["こんばんは","","комбанва","konbanwa","Добрый вечер","Good evening","Когда уже стемнело."],
+["ありがとうございます","","аригатоо годзаимас","arigatō gozaimasu","Большое спасибо","Thank you very much","Самое главное слово поездки. Длинное — вежливое, для всех. Короткое «аригатоо» — для друзей."],
+["すみません","","сумимасэн","sumimasen","Извините / Простите, можно вас?","Excuse me","Слово-ключ: им зовут официанта, извиняются, если кого-то задел, и начинают любой вопрос. Иногда им даже благодарят."],
+["ごめんなさい","","гомэн насаи","gomen nasai","Простите, я виноват","I'm sorry","Когда ты правда что-то натворил. Для мелочей хватает «сумимасэн»."],
+["はい","","хаи","hai","Да","Yes","Ещё значит «я вас слушаю» и «понятно». Японец может кивать и говорить «хаи», просто показывая, что слушает."],
+["いいえ","","ииэ","iie","Нет","No","Звучит резковато. Чтобы вежливо отказаться, японцы чаще говорят «даидзёобу дэс»."],
+["大丈夫です","だいじょうぶです","даидзёобу дэс","daijōbu desu","Всё хорошо / Не нужно, спасибо","I'm OK / No, thank you","Суперслово! «Пакет нужен?» — «Дайдзёобу дэс» значит «нет, спасибо». «Ты в порядке?» — «Дайдзёобу!» значит «да, всё хорошо»."],
+["お願いします","おねがいします","онэгаи симас","onegai shimasu","Пожалуйста (прошу)","Please","Когда просишь ты. Назови вещь и добавь это слово: «Коохии, онэгаи симас» — кофе, пожалуйста."],
+["どうぞ","","доозо","dōzo","Пожалуйста (возьмите, проходите)","Here you go / After you","Когда ты что-то даёшь или пропускаешь вперёд. Если просишь ты — это уже «онэгаи симас»."],
+["いただきます","","итадакимас","itadakimasu","Приятного аппетита (перед едой)","Let's eat","Говорят перед едой, сложив ладошки. Это «спасибо» тем, кто вырастил и приготовил еду."],
+["ごちそうさまでした","","готисоосама дэсита","gochisōsama deshita","Спасибо, было вкусно (после еды)","Thank you for the meal","Скажи это повару, когда уходишь из маленького ресторанчика. Он очень обрадуется."],
+["さようなら","","саёонара","sayōnara","До свидания","Goodbye","Звучит как «прощай надолго». Выходя из магазина или кафе, лучше сказать «аригатоо годзаимас»."],
+["分かりません","わかりません","вакаримасэн","wakarimasen","Я не понимаю","I don't understand",""],
+["分かりました","わかりました","вакаримасита","wakarimashita","Понятно / Хорошо","I understand / OK",""],
+["英語を話せますか","えいごをはなせますか","ээго о ханасэмас ка","eigo o hanasemasu ka","Вы говорите по-английски?","Do you speak English?","«Ка» в конце превращает фразу в вопрос — как знак «?», только голосом."],
+["もう一度お願いします","もういちどおねがいします","моо итидо онэгаи симас","mō ichido onegai shimasu","Повторите, пожалуйста","Once more, please",""],
+["ゆっくりお願いします","ゆっくりおねがいします","юккури онэгаи симас","yukkuri onegai shimasu","Помедленнее, пожалуйста","Slowly, please",""],
+["書いてください","かいてください","каитэ кудасаи","kaite kudasai","Напишите, пожалуйста","Please write it down","Протяни блокнот или телефон. Цифры и слова на бумаге понять легче."]],
+hear:[],
+dialog:{them:"Прохожий",lines:[
+["y","すみません、英語を話せますか？","сумимасэн, ээго о ханасэмас ка?","Извините, вы говорите по-английски?"],
+["t","少しだけ…","сукоси дакэ…","Только чуть-чуть…"],
+["y","大丈夫です。ありがとうございます！","даидзёобу дэс. аригатоо годзаимас!","Ничего страшного. Спасибо!"]]},
+tips:["Кланяться в пояс не нужно. Иностранцу хватает лёгкого кивка с улыбкой.","Начинай любую просьбу со слова «сумимасэн» — и тебе обязательно помогут.","Говори чуть тише, чем дома: в Японии не принято шуметь, особенно в транспорте.","Не бойся ошибаться. Японцы очень радуются, когда иностранец говорит хоть пару слов на их языке."],
+ill:["bow"]},
+
+{id:"airport",L:"T",col:"#00A7DB",title:"Аэропорт",sub:"Паспорт, багаж, обмен денег",words:["transport","money"],src:"https://wrenjapan.com/essentials/faq-japan-travel-ru/",
+intro:"Ты прилетел! Сначала паспортный контроль, потом багаж и таможня. Чаще всего с тобой заговорят по-английски, но пара японских слов очень пригодится.",
+phrases:[
+["パスポートです","","паспоото дэс","pasupōto desu","Вот мой паспорт","Here is my passport","パスポート — слово из английского. Японцы вставляют гласные между согласными: pas-u-pōto."],
+["観光です","かんこうです","канкоо дэс","kankō desu","Я турист (приехал отдыхать)","Sightseeing","Так отвечают на вопрос о цели поездки на паспортном контроле."],
+["一週間です","いっしゅうかんです","иссюукан дэс","isshūkan desu","На одну неделю","One week","Две недели — «нисюукан» (二週間), десять дней — «тоока» (十日)."],
+["荷物はどこですか","にもつはどこですか","нимоцу ва доко дэс ка","nimotsu wa doko desu ka","Где получить багаж?","Where is the baggage?",""],
+["申告するものはありません","しんこくするものはありません","синкоку суру моно ва аримасэн","shinkoku suru mono wa arimasen","Мне нечего декларировать","Nothing to declare","Для таможни. Обычно хватает QR-кода из Visit Japan Web."],
+["両替はどこですか","りょうがえはどこですか","рёогаэ ва доко дэс ка","ryōgae wa doko desu ka","Где обменять деньги?","Where can I exchange money?",""],
+["Wi-Fiはありますか","わいふぁいはありますか","ваифаи ва аримас ка","waifai wa arimasu ka","Здесь есть Wi-Fi?","Is there Wi-Fi?",""],
+["電車の乗り場はどこですか","でんしゃののりばはどこですか","дэнся но нориба ва доко дэс ка","densha no noriba wa doko desu ka","Где посадка на поезд?","Where do I get the train?","«Нориба» — место посадки. バス乗り場 — посадка на автобус."]],
+hear:[
+["目的は何ですか","もくてきはなんですか","мокутэки ва нан дэс ка","mokuteki wa nan desu ka","Какова цель поездки?","What is the purpose of your visit?",""],
+["何日滞在しますか","なんにちたいざいしますか","наннити таидзаи симас ка","nannichi taizai shimasu ka","Сколько дней пробудете?","How many days will you stay?",""]],
+dialog:{them:"Пограничник",lines:[
+["t","パスポートをお願いします。","паспоото о онэгаи симас.","Паспорт, пожалуйста."],
+["y","はい、どうぞ。","хаи, доозо.","Да, вот, пожалуйста."],
+["t","目的は？","мокутэки ва?","Цель поездки?"],
+["y","観光です。","канкоо дэс.","Туризм."],
+["t","何日ですか？","наннити дэс ка?","Сколько дней?"],
+["y","一週間です。","иссюукан дэс.","Одна неделя."],
+["t","はい、どうぞ。","хаи, доозо.","Хорошо, проходите."]]},
+tips:["Заранее заполни Visit Japan Web: получишь QR-код для паспортного контроля и таможни — так быстрее.","Паспорт всегда носи с собой: туристы обязаны иметь его при себе.","Наличные удобно снимать в банкоматах 7-Eleven и на почте Japan Post. Почта и банки ночью могут не работать.","Обмен в банках и в аэропорту обычно выгоднее, чем в автоматах-обменниках.","Интернет: туристическая eSIM или карманный роутер. В туристических SIM обычно только интернет, без звонков."],
+ill:[]},
+
+{id:"train",L:"C",col:"#009944",title:"Поезд и метро",sub:"Билеты, платформы, синкансэн",words:["transport","signs"],src:"https://wrenjapan.com/essentials/kak-ezdit-na-poezdah-i-metro-v-yaponii/",
+intro:"Поезда в Японии быстрые, чистые и приходят минута в минуту. Главное — понять, где купить билет и на какую платформу идти.",
+phrases:[
+["切符はどこで買えますか","きっぷはどこでかえますか","киппу ва доко дэ каэмас ка","kippu wa doko de kaemasu ka","Где купить билет?","Where can I buy a ticket?",""],
+["～までいくらですか","","… мадэ икура дэс ка","… made ikura desu ka","Сколько стоит до …?","How much is it to …?","Вместо «～» скажи название станции: «Сибуя мадэ икура дэс ка?»"],
+["この電車は～に行きますか","このでんしゃは～にいきますか","коно дэнся ва … ни икимас ка","kono densha wa … ni ikimasu ka","Этот поезд идёт до …?","Does this train go to …?",""],
+["何番線ですか","なんばんせんですか","намбансэн дэс ка","nanbansen desu ka","С какой платформы?","Which platform?","«Бансэн» — номер пути. 3番線 — «самбансэн», третий путь."],
+["乗り換えはどこですか","のりかえはどこですか","норикаэ ва доко дэс ка","norikae wa doko desu ka","Где пересадка?","Where do I transfer?",""],
+["京都まで新幹線の切符を一枚ください","きょうとまでしんかんせんのきっぷをいちまいください","кёото мадэ синкансэн но киппу о итимаи кудасаи","Kyōto made shinkansen no kippu o ichimai kudasai","Один билет на синкансэн до Киото, пожалуйста","One shinkansen ticket to Kyoto, please","Вместо Киото — любой город. Два билета — «нимаи» (二枚)."],
+["窓側でお願いします","まどがわでおねがいします","мадогава дэ онэгаи симас","madogawa de onegai shimasu","У окна, пожалуйста","Window seat, please","У прохода — «цуурогава» (通路側). Из Токио в сторону Киото гора Фудзи видна справа — проси место E."],
+["精算機はどこですか","せいさんきはどこですか","сээсанки ва доко дэс ка","seisanki wa doko desu ka","Где автомат доплаты?","Where is the fare adjustment machine?","Купил слишком дешёвый билет? Не страшно: перед выходом доплатишь разницу в этом автомате."],
+["出口はどこですか","でぐちはどこですか","дэгути ва доко дэс ка","deguchi wa doko desu ka","Где выход?","Where is the exit?","Выход — 出口, вход — 入口. У больших станций десятки выходов с номерами (A1, B3…). Посмотри в карте, какой тебе нужен."]],
+hear:[
+["次は新宿です","つぎはしんじゅくです","цуги ва синдзюку дэс","tsugi wa Shinjuku desu","Следующая станция — Синдзюку","Next is Shinjuku",""],
+["ドアが閉まります","どあがしまります","доа га симаримас","doa ga shimarimasu","Двери закрываются","The doors are closing",""],
+["黄色い線の内側までお下がりください","きいろいせんのうちがわまでおさがりください","киирои сэн но утигава мадэ осагари кудасаи","kiiroi sen no uchigawa made osagari kudasai","Отойдите за жёлтую линию","Please stand behind the yellow line",""],
+["指定席ですか、自由席ですか","していせきですか、じゆうせきですか","ситээсэки дэс ка, дзиюусэки дэс ка","shiteiseki desu ka, jiyūseki desu ka","Место по билету или свободный вагон?","Reserved or non-reserved?",""]],
+dialog:{them:"Кассир",lines:[
+["y","すみません、京都まで新幹線の切符を一枚ください。","сумимасэн, кёото мадэ синкансэн но киппу о итимаи кудасаи.","Извините, один билет на синкансэн до Киото."],
+["t","指定席ですか、自由席ですか？","ситээсэки дэс ка, дзиюусэки дэс ка?","С местом или в свободный вагон?"],
+["y","指定席でお願いします。","ситээсэки дэ онэгаи симас.","С местом, пожалуйста."],
+["t","窓側と通路側、どちらがよろしいですか？","мадогава то цуурогава, дотира га ёросии дэс ка?","У окна или у прохода?"],
+["y","窓側でお願いします。","мадогава дэ онэгаи симас.","У окна, пожалуйста."],
+["t","かしこまりました。","касикомаримасита.","Хорошо, сейчас сделаю."]]},
+tips:["Для метро и электричек возьми карту Suica, PASMO или ICOCA (бывает и в Apple Wallet). Приложил к турникету — и прошёл. Каждому человеку нужна своя карта.","Бумажный билет турникет забирает на выходе — не выбрасывай его до конца поездки.","Не знаешь цену? Купи самый дешёвый билет, а перед выходом доплати в автомате 精算 (Fare Adjustment).","На синкансэн и экспрессы нужен отдельный билет — обычной картой их не оплатить.","Маршрут удобно строить в Google Maps или Navitime Japan Travel.","В вагоне не разговаривают по телефону и болтают тихо.","На эскалаторе в Токио стоят слева, а в Осаке — справа. Делай как все вокруг.","Обед в коробочке с вокзала (эки-бэн) можно есть прямо в синкансэне — это традиция."],
+ill:[]},
+
+{id:"bus",L:"Z",col:"#8F76D6",title:"Автобус и такси",sub:"Как ехать и где выйти",words:["transport","pointers"],src:"https://wrenjapan.com/essentials/kak-ezdit-na-avtobusah-v-yaponii/",
+intro:"Автобусы в Японии немного хитрые: иногда заходят сзади, а платят при выходе. А в такси дверь открывается сама — как по волшебству.",
+phrases:[
+["このバスは～に行きますか","このばすは～にいきますか","коно басу ва … ни икимас ка","kono basu wa … ni ikimasu ka","Этот автобус идёт до …?","Does this bus go to …?",""],
+["～で降ります","～でおります","… дэ оримас","… de orimasu","Я выхожу на …","I get off at …",""],
+["両替できますか","りょうがえできますか","рёогаэ дэкимас ка","ryōgae dekimasu ka","Можно разменять деньги?","Can I get change?","Водитель сдачу не даёт. Зато рядом с ним есть автомат, который меняет купюру 1000 иен на монетки."],
+["～までお願いします","～までおねがいします","… мадэ онэгаи симас","… made onegai shimasu","До …, пожалуйста (в такси)","To …, please",""],
+["この住所までお願いします","このじゅうしょまでおねがいします","коно дзюусё мадэ онэгаи симас","kono jūsho made onegai shimasu","По этому адресу, пожалуйста","To this address, please","И покажи водителю адрес на японском в телефоне."],
+["ここで止めてください","ここでとめてください","коко дэ томэтэ кудасаи","koko de tomete kudasai","Остановите здесь, пожалуйста","Please stop here",""],
+["どのくらいかかりますか","","доно кураи какаримас ка","dono kurai kakarimasu ka","Сколько ехать?","How long does it take?",""]],
+hear:[
+["どちらまで？","","дотира мадэ?","dochira made?","Куда едем?","Where to?",""],
+["かしこまりました","","касикомаримасита","kashikomarimashita","Понял, будет сделано","Certainly",""],
+["次、止まります","つぎ、とまります","цуги, томаримас","tsugi, tomarimasu","Остановлюсь на следующей (кто-то нажал «стоп»)","Stopping at the next stop",""]],
+dialog:{them:"Таксист",lines:[
+["t","どちらまで？","дотира мадэ?","Куда едем?"],
+["y","このホテルまでお願いします。","коно хотэру мадэ онэгаи симас.","До этого отеля, пожалуйста. (показываешь экран)"],
+["t","かしこまりました。","касикомаримасита.","Хорошо."],
+["y","ここで止めてください。","коко дэ томэтэ кудасаи.","Остановите здесь, пожалуйста."],
+["t","1,800円です。","сэн хаппяку эн дэс.","1800 иен."],
+["y","カードで払えますか？","каадо дэ хараэмас ка?","Можно картой?"],
+["t","はい、どうぞ。","хаи, доозо.","Да, пожалуйста."]]},
+tips:["Остановки объявляют по-японски. Следи по карте в телефоне и нажми кнопку «стоп» заранее.","Мелочь держи наготове: водитель сдачу не даёт, но есть автомат для размена.","Дверь такси открывается и закрывается сама. Не трогай её — водитель всё сделает кнопкой.","Такси дорогое, поезд в разы дешевле.","Сделай скриншот адреса и названия места по-японски — его можно просто показать."],
+ill:["bus"]},
+
+{id:"hotel",L:"N",col:"#00ADA9",title:"Отель и рёкан",sub:"Заселение, онсэн, юката",words:["hotel"],src:"https://wrenjapan.com/essentials/kak-zhit-v-traditsionnoj-gostinitse-ryokan/",
+intro:"Бывают обычные отели и рёканы — японские гостиницы, где спят на матрасе прямо на полу и ходят в лёгком кимоно. Правил много, но они простые.",
+phrases:[
+["チェックインお願いします","ちぇっくいんおねがいします","тэкку ин онэгаи симас","chekkuin onegai shimasu","Заселите, пожалуйста","Check-in, please",""],
+["予約しています","よやくしています","ёяку ситэ имас","yoyaku shite imasu","У меня есть бронь","I have a reservation",""],
+["荷物を預かってもらえますか","にもつをあずかってもらえますか","нимоцу о адзукаттэ мораэмас ка","nimotsu o azukatte moraemasu ka","Можно оставить у вас багаж?","Can you keep my luggage?","Удобно, если приехал раньше заселения или уже выехал, а поезд вечером."],
+["チェックアウトは何時ですか","ちぇっくあうとはなんじですか","тэкку ауто ва нандзи дэс ка","chekkuauto wa nanji desu ka","Во сколько выезд?","What time is check-out?",""],
+["朝ご飯は何時からですか","あさごはんはなんじからですか","асагохан ва нандзи кара дэс ка","asagohan wa nanji kara desu ka","Со скольки завтрак?","What time is breakfast?",""],
+["Wi-Fiのパスワードは何ですか","わいふぁいのぱすわーどはなんですか","ваифаи но пасуваадо ва нан дэс ка","waifai no pasuwādo wa nan desu ka","Какой пароль от Wi-Fi?","What is the Wi-Fi password?",""],
+["タオルをもう一枚ください","たおるをもういちまいください","таору о моо итимаи кудасаи","taoru o mō ichimai kudasai","Ещё одно полотенце, пожалуйста","One more towel, please",""],
+["エアコンが動きません","えあこんがうごきません","эакон га угокимасэн","eakon ga ugokimasen","Кондиционер не работает","The air conditioner doesn't work","Вместо エアコン подставь любую вещь: シャワー «сяваа» (душ), テレビ «тэрэби» (телевизор)."],
+["鍵をなくしました","かぎをなくしました","каги о накусимасита","kagi o nakushimashita","Я потерял ключ","I lost my key",""],
+["タトゥーがあっても大丈夫ですか","たとぅーがあってもだいじょうぶですか","татуу га аттэ мо даидзёобу дэс ка","tatū ga atte mo daijōbu desu ka","С татуировкой в онсэн можно?","Is it OK with tattoos?","В некоторых онсэнах татуировки запрещены. Иногда разрешают заклеить их пластырем."],
+["貸切風呂はありますか","かしきりぶろはありますか","касикири буро ва аримас ка","kashikiri-buro wa arimasu ka","Есть отдельная купальня?","Is there a private bath?","Небольшая купальня только для твоей семьи. Её бронируют на стойке."]],
+hear:[
+["お名前をお願いします","おなまえをおねがいします","онамаэ о онэгаи симас","onamae o onegai shimasu","Ваше имя, пожалуйста","Your name, please",""],
+["お部屋は5階です","おへやはごかいです","охэя ва гокаи дэс","oheya wa gokai desu","Ваш номер на 5-м этаже","Your room is on the 5th floor",""],
+["ごゆっくりどうぞ","","гоюккури доозо","goyukkuri dōzo","Отдыхайте, не спешите","Please relax",""]],
+dialog:{them:"Администратор",lines:[
+["y","こんにちは。チェックインお願いします。","конничива. тэкку ин онэгаи симас.","Здравствуйте. Заселите, пожалуйста."],
+["t","ご予約のお名前は？","гоёяку но онамаэ ва?","На какое имя бронь?"],
+["y","イワノフです。","иванофу дэс.","Иванов."],
+["t","パスポートをお願いします。","паспоото о онэгаи симас.","Паспорт, пожалуйста."],
+["y","はい、どうぞ。","хаи, доозо.","Вот, пожалуйста."],
+["t","お部屋は5階です。ごゆっくりどうぞ。","охэя ва гокаи дэс. гоюккури доозо.","Номер на 5-м этаже. Хорошего отдыха."],
+["y","ありがとうございます！","аригатоо годзаимас!","Спасибо!"]]},
+tips:["В рёкане обувь снимают у входа и ставят носками к двери.","По коридорам ходят в тапочках, а на татами (соломенный пол) — только в носках или босиком. У туалета свои тапочки — не уходи в них обратно в комнату!","Онсэн (горячий источник): сначала моешься под душем, потом залезаешь в воду. Купаются без купальника, маленькое полотенце в воду не опускают.","Тяжёлый чемодан на татами не ставь — циновки портятся.","Ужин в рёкане подают в определённое время, поэтому приезжать лучше к 16–18 часам.","Чаевые не оставляют. Если хочется отблагодарить — подари маленький сувенир из дома."],
+ill:["noren","yukata"]},
+
+{id:"restaurant",L:"A",col:"#E85298",title:"Ресторан",sub:"Заказать и попросить счёт",words:["food","taste","count"],src:"https://wrenjapan.com/essentials/15-bazovyh-blyud-kotorye-stoit-poprobovat-v-yaponii/",
+intro:"Японская еда — одна из самых вкусных в мире. Хорошая новость: во многих кафе есть меню с картинками и пластиковые муляжи блюд. Можно просто показать пальцем!",
+phrases:[
+["二人です","ふたりです","футари дэс","futari desu","Нас двое","Two people","Один — «хитори», трое — «саннин», четверо — «ёнин». Можно просто показать на пальцах."],
+["英語のメニューはありますか","えいごのめにゅーはありますか","ээго но мэнюю ва аримас ка","eigo no menyū wa arimasu ka","Есть меню на английском?","Do you have an English menu?",""],
+["これをください","","корэ о кудасаи","kore o kudasai","Вот это, пожалуйста","This one, please","Самая полезная фраза! Покажи пальцем на картинку в меню или на муляж в витрине."],
+["これを二つください","これをふたつください","корэ о футацу кудасаи","kore o futatsu kudasai","Вот этого две штуки","Two of these, please","Считать вещи: хитоцу (1), футацу (2), миццу (3), ёццу (4)."],
+["おすすめは何ですか","おすすめはなんですか","осусумэ ва нан дэс ка","osusume wa nan desu ka","Что посоветуете?","What do you recommend?",""],
+["お水をください","おみずをください","омидзу о кудасаи","omizu o kudasai","Воды, пожалуйста","Water, please","Вода и чай в ресторанах обычно бесплатные."],
+["わさび抜きでお願いします","わさびぬきでおねがいします","васаби нуки дэ онэгаи симас","wasabi nuki de onegai shimasu","Без васаби, пожалуйста","No wasabi, please","В суши васаби обычно уже положили внутрь. «Нуки» значит «без»."],
+["辛くしないでください","からくしないでください","караку синаидэ кудасаи","karaku shinaide kudasai","Не острое, пожалуйста","Not spicy, please",""],
+["肉は食べられません","にくはたべられません","нику ва табэрарэмасэн","niku wa taberaremasen","Я не ем мясо","I can't eat meat","Вместо 肉 подставь 魚 «сакана» (рыба) или 豚肉 «бутанику» (свинина)."],
+["アレルギーがあります","あれるぎーがあります","арэругии га аримас","arerugī ga arimasu","У меня аллергия","I have an allergy","И скажи на что: えび «эби» (креветки), 卵 «тамаго» (яйца), ナッツ «наццу» (орехи)."],
+["美味しいです","おいしいです","оисии дэс","oishii desu","Вкусно!","It's delicious!","Повар будет рад это услышать."],
+["お会計お願いします","おかいけいおねがいします","окаикээ онэгаи симас","okaikei onegai shimasu","Счёт, пожалуйста","The bill, please","Платят обычно на кассе у выхода, а не за столом."],
+["持ち帰りできますか","もちかえりできますか","мотикаэри дэкимас ка","mochikaeri dekimasu ka","Можно взять с собой?","Can I take it to go?",""],
+["もう一つください","もうひとつください","моо хитоцу кудасаи","mō hitotsu kudasai","Ещё одну, пожалуйста","One more, please",""]],
+hear:[
+["いらっしゃいませ","","ирассяимасэ","irasshaimase","Добро пожаловать!","Welcome!","Это громко говорят все сотрудники, когда ты входишь. Отвечать не нужно — улыбнись и кивни."],
+["何名様ですか","なんめいさまですか","наммээ сама дэс ка","nanmei-sama desu ka","Сколько вас?","How many people?",""],
+["ご注文はお決まりですか","ごちゅうもんはおきまりですか","готюумон ва окимари дэс ка","gochūmon wa okimari desu ka","Готовы заказать?","Are you ready to order?",""],
+["少々お待ちください","しょうしょうおまちください","сёосёо омати кудасаи","shōshō omachi kudasai","Подождите немного","Please wait a moment",""]],
+dialog:{them:"Официант",lines:[
+["t","いらっしゃいませ！何名様ですか？","ирассяимасэ! наммээ сама дэс ка?","Добро пожаловать! Сколько вас?"],
+["y","二人です。","футари дэс.","Нас двое."],
+["t","こちらへどうぞ。","котира э доозо.","Проходите сюда."],
+["y","すみません！これを二つください。","сумимасэн! корэ о футацу кудасаи.","Извините! Вот этого две порции."],
+["t","お飲み物は？","ономимоно ва?","А напитки?"],
+["y","お水をお願いします。","омидзу о онэгаи симас.","Воду, пожалуйста."],
+["y","お会計お願いします。","окаикээ онэгаи симас.","Счёт, пожалуйста."],
+["t","2,400円です。","нисэн ёнхяку эн дэс.","2400 иен."],
+["y","ごちそうさまでした！","готисоосама дэсита!","Спасибо, было очень вкусно!"]]},
+tips:["Чаевые не оставляют. Если оставишь сдачу, тебя могут догнать на улице, чтобы её вернуть!","В идзакая (японском кафе-баре) к напитку приносят маленькую закуску «отооси» за 300–700 иен. Это не обман, а традиция.","Суши макают в соевый соус рыбой, а не рисом — иначе рис развалится.","Лапшу можно втягивать с хлюпаньем — это нормально и даже значит «вкусно!».","На конвейере суши цена зависит от цвета тарелки.","Рестораны с оценкой выше 3,5 в Google Maps обычно хорошие."],
+ill:["ticket","chopsticks"]},
+
+{id:"konbini",L:"Y",col:"#C1A470",title:"Комбини",sub:"Магазин у дома 24/7",words:["food","money"],src:"https://wrenjapan.com/essentials/faq-japan-travel-ru/",
+intro:"Комбини — маленький магазин, открытый круглые сутки. Там есть всё: онигири, горячий обед, мороженое, зонтик и даже банкомат. Кассир задаёт много быстрых вопросов — научимся их понимать.",
+phrases:[
+["袋はいりません","ふくろはいりません","фукуро ва иримасэн","fukuro wa irimasen","Пакет не нужен","I don't need a bag","Или проще: «даидзёобу дэс». Пакеты платные, стоят несколько иен."],
+["袋をください","ふくろをください","фукуро о кудасаи","fukuro o kudasai","Пакет, пожалуйста","A bag, please",""],
+["温めてください","あたためてください","ататамэтэ кудасаи","atatamete kudasai","Подогрейте, пожалуйста","Please heat it up","Обед в коробочке (бэнто) тебе подогреют в микроволновке прямо на кассе."],
+["お箸をください","おはしをください","охаси о кудасаи","ohashi o kudasai","Палочки, пожалуйста","Chopsticks, please","Ложка — スプーン «супуун», вилка — フォーク «фооку»."],
+["トイレを借りてもいいですか","といれをかりてもいいですか","тоирэ о каритэ мо ии дэс ка","toire o karite mo ii desu ka","Можно воспользоваться туалетом?","May I use the toilet?","Во многих комбини есть туалет для покупателей. Спроси — это вежливо."],
+["これは何ですか","これはなんですか","корэ ва нан дэс ка","kore wa nan desu ka","Что это?","What is this?",""],
+["ATMはありますか","","ээтииэму ва аримас ка","ētīemu wa arimasu ka","Здесь есть банкомат?","Is there an ATM?",""]],
+hear:[
+["温めますか","あたためますか","ататамэмас ка","atatamemasu ka","Подогреть?","Shall I heat it up?","Ответ: «хаи, онэгаи симас» (да, пожалуйста) или «даидзёобу дэс» (не нужно)."],
+["袋はご利用ですか","ふくろはごりようですか","фукуро ва горийоо дэс ка","fukuro wa goriyō desu ka","Пакет нужен?","Do you need a bag?",""],
+["お箸はおつけしますか","おはしはおつけしますか","охаси ва оцукэ симас ка","ohashi wa otsuke shimasu ka","Положить палочки?","Would you like chopsticks?",""],
+["ポイントカードはお持ちですか","ぽいんとかーどはおもちですか","поинто каадо ва омоти дэс ка","pointo kādo wa omochi desu ka","Есть карта магазина?","Do you have a point card?","Ответ: «наи дэс» (нету) — и всё."],
+["レシートはご利用ですか","れしーとはごりようですか","рэсиито ва горийоо дэс ка","reshīto wa goriyō desu ka","Чек нужен?","Do you need the receipt?",""]],
+dialog:{them:"Кассир",lines:[
+["t","いらっしゃいませ。ポイントカードはお持ちですか？","ирассяимасэ. поинто каадо ва омоти дэс ка?","Здравствуйте. Есть карта магазина?"],
+["y","ないです。","наи дэс.","Нету."],
+["t","温めますか？","ататамэмас ка?","Подогреть?"],
+["y","はい、お願いします。","хаи, онэгаи симас.","Да, пожалуйста."],
+["t","袋はご利用ですか？","фукуро ва горийоо дэс ка?","Пакет нужен?"],
+["y","大丈夫です。","даидзёобу дэс.","Не нужно, спасибо."],
+["t","650円です。","роппяку годзюу эн дэс.","650 иен."],
+["y","Suicaで。","суика дэ.","Картой Suica."],
+["t","ありがとうございました！","аригатоо годзаимасита!","Спасибо за покупку!"]]},
+tips:["Банкоматы в 7-Eleven принимают многие иностранные карты.","Деньги кладут не в руку кассиру, а на маленький поднос у кассы.","Урн на улицах мало. Мусор носят с собой и выбрасывают в комбини или в отеле.","Есть на ходу не очень принято: лучше поесть у магазина или на скамейке.","Вечером готовая еда в супермаркетах часто продаётся со скидкой."],
+ill:[]},
+
+{id:"shopping",L:"F",col:"#9C5E31",title:"Покупки и деньги",sub:"Цены, размеры, Tax Free",words:["money","colors","adj"],src:"https://wrenjapan.com/essentials/faq-japan-travel-ru/",
+intro:"В Японии здорово ходить по магазинам: аниме-лавки, сувениры, сладости. Торговаться не нужно — цена уже честная.",
+phrases:[
+["いくらですか","","икура дэс ка","ikura desu ka","Сколько стоит?","How much is it?",""],
+["見ているだけです","みているだけです","митэ иру дакэ дэс","mite iru dake desu","Я просто смотрю","I'm just looking",""],
+["試着してもいいですか","しちゃくしてもいいですか","ситяку ситэ мо ии дэс ка","shichaku shite mo ii desu ka","Можно примерить?","Can I try it on?",""],
+["大きいサイズはありますか","おおきいさいずはありますか","оокии саидзу ва аримас ка","ōkii saizu wa arimasu ka","Есть размер побольше?","Do you have a bigger size?","Поменьше — 小さい «тиисаи». Японские размеры часто меньше наших."],
+["他の色はありますか","ほかのいろはありますか","хока но иро ва аримас ка","hoka no iro wa arimasu ka","Есть другой цвет?","Do you have other colors?",""],
+["これにします","","корэ ни симас","kore ni shimasu","Беру это","I'll take this",""],
+["カードで払えますか","かーどではらえますか","каадо дэ хараэмас ка","kādo de haraemasu ka","Можно оплатить картой?","Can I pay by card?",""],
+["現金で払います","げんきんではらいます","гэнкин дэ хараимас","genkin de haraimasu","Заплачу наличными","I'll pay in cash",""],
+["免税できますか","めんぜいできますか","мэндзээ дэкимас ка","menzei dekimasu ka","Можно оформить Tax Free?","Can I buy tax-free?","Нужен паспорт. С 1 ноября 2026 года налог сначала платишь, а возвращают его в аэропорту, когда покажешь покупки."],
+["プレゼント用に包んでください","ぷれぜんとようにつつんでください","пурэдзэнто ёо ни цуцундэ кудасаи","purezento-yō ni tsutsunde kudasai","Упакуйте как подарок, пожалуйста","Please gift-wrap it",""]],
+hear:[
+["お支払いはどうされますか","おしはらいはどうされますか","осихараи ва доо сарэмас ка","oshiharai wa dō saremasu ka","Как будете платить?","How would you like to pay?",""],
+["1,000円になります","せんえんになります","сэн эн ни наримас","sen en ni narimasu","С вас 1000 иен","That will be 1,000 yen",""]],
+dialog:{them:"Продавец",lines:[
+["y","すみません、これはいくらですか？","сумимасэн, корэ ва икура дэс ка?","Извините, сколько это стоит?"],
+["t","3,000円です。","сандзэн эн дэс.","3000 иен."],
+["y","他の色はありますか？","хока но иро ва аримас ка?","Есть другой цвет?"],
+["t","青と白があります。","ао то сиро га аримас.","Есть синий и белый."],
+["y","じゃあ、青にします。","дзяа, ао ни симас.","Тогда беру синий."],
+["t","ありがとうございます。","аригатоо годзаимас.","Спасибо."]]},
+tips:["Торговаться в Японии не принято: цена на ценнике окончательная.","Российские карты в Японии почти не работают. Бери наличные или карту другой страны.","Наличные точно понадобятся в музеях, у уличной еды, в маленьких кафе и в храмах.","Tax Free: в магазинах с такой табличкой иностранцам возвращают налог (около 10%) при покупке от 5000 иен в одном магазине за день. Нужен паспорт.","Купленное по Tax Free нужно увезти из Японии, а косметику и еду нельзя открывать до отъезда."],
+ill:["coins","price"]},
+
+{id:"directions",L:"H",col:"#9CAEB7",title:"Как пройти?",sub:"Где, направо, налево",words:["pointers","places"],
+intro:"Улицы в Японии часто без названий, а станции огромные, как подземные города. Не бойся спрашивать дорогу: японцы очень стараются помочь.",
+phrases:[
+["～はどこですか","","… ва доко дэс ка","… wa doko desu ka","Где …?","Where is …?","Главная формула! Подставь любое место: «эки ва доко дэс ка?» — где станция?"],
+["トイレはどこですか","","тоирэ ва доко дэс ка","toire wa doko desu ka","Где туалет?","Where is the toilet?",""],
+["駅はどこですか","えきはどこですか","эки ва доко дэс ка","eki wa doko desu ka","Где станция?","Where is the station?",""],
+["ここはどこですか","","коко ва доко дэс ка","koko wa doko desu ka","Где я? (Что это за место?)","Where am I?",""],
+["地図で教えてください","ちずでおしえてください","тидзу дэ осиэтэ кудасаи","chizu de oshiete kudasai","Покажите на карте, пожалуйста","Please show me on the map","Протяни телефон с картой — так проще, чем объяснять словами."],
+["遠いですか","とおいですか","тоои дэс ка","tōi desu ka","Это далеко?","Is it far?",""],
+["歩いて行けますか","あるいていけますか","аруитэ икэмас ка","aruite ikemasu ka","Можно дойти пешком?","Can I walk there?",""],
+["道に迷いました","みちにまよいました","мити ни маёимасита","michi ni mayoimashita","Я заблудился","I'm lost",""]],
+hear:[
+["まっすぐ行ってください","まっすぐいってください","массугу иттэ кудасаи","massugu itte kudasai","Идите прямо","Go straight",""],
+["右に曲がってください","みぎにまがってください","миги ни магаттэ кудасаи","migi ni magatte kudasai","Поверните направо","Turn right","Налево — 左 «хидари»."],
+["信号を渡ってください","しんごうをわたってください","сингоо о вататтэ кудасаи","shingō o watatte kudasai","Перейдите на светофоре","Cross at the traffic light",""],
+["あそこです","","асоко дэс","asoko desu","Вон там","It's over there",""],
+["歩いて5分くらいです","あるいてごふんくらいです","аруитэ гофун кураи дэс","aruite gofun kurai desu","Минут пять пешком","About 5 minutes on foot",""]],
+dialog:{them:"Прохожий",lines:[
+["y","すみません、駅はどこですか？","сумимасэн, эки ва доко дэс ка?","Извините, где станция?"],
+["t","まっすぐ行って、信号を右に曲がってください。","массугу иттэ, сингоо о миги ни магаттэ кудасаи.","Идите прямо, на светофоре поверните направо."],
+["y","遠いですか？","тоои дэс ка?","Это далеко?"],
+["t","いいえ、歩いて5分くらいです。","ииэ, аруитэ гофун кураи дэс.","Нет, минут пять пешком."],
+["y","ありがとうございます！","аригатоо годзаимас!","Спасибо!"]]},
+tips:["Японцы очень стараются помочь. Иногда даже провожают до нужного места.","Если заблудился, иди в 交番 «кообан» — маленький полицейский пост. Там подскажут дорогу.","У многих улиц нет названий, адрес — это номера кварталов. Поэтому все пользуются картами в телефоне.","На больших станциях ищи жёлтые таблички с номером выхода."],
+ill:["koko","arrows"]},
+
+{id:"temples",L:"I",col:"#0079C2",title:"Храмы",sub:"Как молиться и что можно",words:["places","nature"],src:"https://wrenjapan.com/essentials/kak-vesti-sebya-v-yaponskih-hramah-i-chto-takoe-omikuju-omamori-i-goshuin/",
+intro:"В Японии тысячи храмов и святилищ. Там тихо и красиво, а ещё можно узнать своё предсказание и купить оберег. Главное — знать несколько простых правил.",
+phrases:[
+["写真を撮ってもいいですか","しゃしんをとってもいいですか","сясин о тоттэ мо ии дэс ка","shashin o totte mo ii desu ka","Можно сфотографировать?","May I take a photo?","Внутри многих залов фотографировать нельзя. Ищи табличку 撮影禁止."],
+["写真を撮ってもらえますか","しゃしんをとってもらえますか","сясин о тоттэ мораэмас ка","shashin o totte moraemasu ka","Можете нас сфотографировать?","Could you take our photo?",""],
+["入ってもいいですか","はいってもいいですか","хаиттэ мо ии дэс ка","haitte mo ii desu ka","Можно войти?","May I go in?",""],
+["靴を脱ぎますか","くつをぬぎますか","куцу о нугимас ка","kutsu o nugimasu ka","Нужно снять обувь?","Should I take off my shoes?",""],
+["入場料はいくらですか","にゅうじょうりょうはいくらですか","нюудзёорёо ва икура дэс ка","nyūjōryō wa ikura desu ka","Сколько стоит вход?","How much is the entrance fee?",""],
+["御朱印をお願いします","ごしゅいんをおねがいします","госюин о онэгаи симас","goshuin o onegai shimasu","Печать госюин, пожалуйста","A goshuin stamp, please","Госюин — красивая печать с надписью кисточкой. Её ставят в специальную книжечку."],
+["きれいですね","","кирээ дэс нэ","kirei desu ne","Как красиво!","It's beautiful!",""]],
+hear:[],
+dialog:{them:"Служитель",lines:[
+["y","すみません、御朱印をお願いします。","сумимасэн, госюин о онэгаи симас.","Извините, можно печать госюин?"],
+["t","500円です。少々お待ちください。","гохяку эн дэс. сёосёо омати кудасаи.","500 иен. Подождите немного."],
+["t","どうぞ。","доозо.","Пожалуйста."],
+["y","ありがとうございます！","аригатоо годзаимас!","Спасибо!"]]},
+tips:["Перед входом моют руки из ковшика: сначала левую, потом правую. Воду льют на землю, а не обратно в чашу.","Через ворота тории проходят сбоку: середина — дорога для богов.","Омикудзи — бумажка с предсказанием. Плохое предсказание привязывают на специальную верёвочку, чтобы неудача осталась в храме.","Омамори — мешочек-оберег. Его не открывают, иначе, как говорят, «сила выйдет».","Госюин стоит около 500 иен — приготовь деньги без сдачи."],
+ill:["shrine","prayer"]},
+
+{id:"talk",L:"E",col:"#B6007A",title:"Знакомство",sub:"Как подружиться",words:["people","adj","verbs"],
+intro:"Может, ты встретишь японского ребёнка на площадке или в парке. Вот как познакомиться и сказать, что тебе нравится.",
+phrases:[
+["はじめまして","","хадзимэмаситэ","hajimemashite","Приятно познакомиться","Nice to meet you","Говорят только при первой встрече."],
+["私は～です","わたしは～です","ватаси ва … дэс","watashi wa … desu","Меня зовут …","I am …","«Ватаси ва Маша дэс» — я Маша."],
+["お名前は？","おなまえは？","онамаэ ва?","onamae wa?","Как тебя зовут?","What's your name?",""],
+["ロシアから来ました","ろしあからきました","росиа кара кимасита","Roshia kara kimashita","Я из России","I'm from Russia",""],
+["よろしくお願いします","よろしくおねがいします","ёросику онэгаи симас","yoroshiku onegai shimasu","Рад знакомству","Nice to meet you","Хитрое слово без точного перевода. Примерно «давай дружить» или «рассчитываю на тебя»."],
+["日本が大好きです","にほんがだいすきです","нихон га даисуки дэс","Nihon ga daisuki desu","Я очень люблю Японию!","I love Japan!",""],
+["10歳です","じゅっさいです","дзюссаи дэс","jussai desu","Мне 10 лет","I'm ten years old","Спросить возраст: «нансаи дэс ка?» (何歳ですか)."],
+["すごい！","","сугои!","sugoi!","Круто! Ого!","Wow! Amazing!",""],
+["かわいい！","","каваии!","kawaii!","Какой милый!","So cute!",""],
+["楽しいです","たのしいです","таносии дэс","tanoshii desu","Мне весело","I'm having fun",""],
+["一緒に写真を撮りませんか","いっしょにしゃしんをとりませんか","иссё ни сясин о торимасэн ка","issho ni shashin o torimasen ka","Давайте сфотографируемся вместе?","Shall we take a photo together?",""],
+["またね！","","матанэ!","mata ne!","Пока! Увидимся!","See you!",""]],
+hear:[],
+dialog:{them:"Новый друг",lines:[
+["t","こんにちは！どこから来ましたか？","конничива! доко кара кимасита ка?","Привет! Ты откуда?"],
+["y","ロシアから来ました。","росиа кара кимасита.","Я из России."],
+["t","お名前は？","онамаэ ва?","Как тебя зовут?"],
+["y","マーシャです。はじめまして！","маася дэс. хадзимэмаситэ!","Маша. Приятно познакомиться!"],
+["t","日本はどうですか？","нихон ва доо дэс ка?","Как тебе Япония?"],
+["y","すごく楽しいです！","сугоку таносии дэс!","Очень весело!"]]},
+tips:["Японцы обычно не обнимаются при встрече — просто кивают и улыбаются.","К взрослым обращаются по фамилии и добавляют «сан»: Танака-сан. К своему имени «сан» не добавляют!","Если тебя хвалят за японский, скромно ответь «иэ-иэ» (いえいえ) — «да что вы»."],
+ill:[]},
+
+{id:"help",L:"M",col:"#E60012",title:"Помощь",sub:"Если что-то случилось",words:["health","signs"],
+intro:"Япония — очень безопасная страна. Но если что-то случилось — потерялся, заболел или что-то пропало, — эти фразы помогут быстро получить помощь.",
+phrases:[
+["助けて！","たすけて！","тасукэтэ!","tasukete!","Помогите!","Help!",""],
+["救急車を呼んでください","きゅうきゅうしゃをよんでください","кюукюуся о ёндэ кудасаи","kyūkyūsha o yonde kudasai","Вызовите скорую!","Please call an ambulance!","Скорая и пожарные — 119."],
+["警察を呼んでください","けいさつをよんでください","кээсацу о ёндэ кудасаи","keisatsu o yonde kudasai","Вызовите полицию!","Please call the police!","Полиция — 110."],
+["気分が悪いです","きぶんがわるいです","кибун га варуи дэс","kibun ga warui desu","Мне плохо","I feel sick",""],
+["ここが痛いです","ここがいたいです","коко га итаи дэс","koko ga itai desu","Болит вот здесь","It hurts here","Покажи пальцем, где болит. Голова — 頭 «атама», живот — お腹 «онака»."],
+["熱があります","ねつがあります","нэцу га аримас","netsu ga arimasu","У меня температура","I have a fever",""],
+["病院はどこですか","びょういんはどこですか","бёоин ва доко дэс ка","byōin wa doko desu ka","Где больница?","Where is a hospital?",""],
+["薬局はどこですか","やっきょくはどこですか","яккёку ва доко дэс ка","yakkyoku wa doko desu ka","Где аптека?","Where is a pharmacy?","Аптеку ищи по вывеске 薬 «кусури» (лекарства)."],
+["迷子になりました","まいごになりました","маиго ни наримасита","maigo ni narimashita","Я потерялся (говорит ребёнок)","I'm lost (child)","Потерялся? Стой на месте или подойди к сотруднику в форме и скажи эту фразу."],
+["お母さんがいません","おかあさんがいません","окаасан га имасэн","okāsan ga imasen","Я не могу найти маму","I can't find my mom","Папа — お父さん «отоосан»."],
+["財布をなくしました","さいふをなくしました","саифу о накусимасита","saifu o nakushimashita","Я потерял кошелёк","I lost my wallet","В Японии потерянные вещи часто возвращают! Спроси в 交番 (полицейском посту)."],
+["パスポートをなくしました","","паспоото о накусимасита","pasupōto o nakushimashita","Я потерял паспорт","I lost my passport",""],
+["日本語が話せません","にほんごがはなせません","нихонго га ханасэмасэн","nihongo ga hanasemasen","Я не говорю по-японски","I don't speak Japanese",""],
+["地震！","じしん！","дзисин!","jishin!","Землетрясение!","Earthquake!",""]],
+hear:[],
+dialog:{them:"Полицейский",lines:[
+["y","すみません、財布をなくしました。","сумимасэн, саифу о накусимасита.","Извините, я потерял кошелёк."],
+["t","どこでなくしましたか？","доко дэ накусимасита ка?","Где потеряли?"],
+["y","電車の中です。","дэнся но нака дэс.","В поезде."],
+["t","分かりました。こちらに書いてください。","вакаримасита. котира ни каитэ кудасаи.","Понятно. Напишите, пожалуйста, здесь."]]},
+tips:["При землетрясении спрячься под стол и держись подальше от окон. Делай то же, что японцы вокруг.","Запиши адрес отеля по-японски и держи в кармане.","Многие лекарства в аптеках продают без рецепта. Покажи фразу и место, где болит.","Если ребёнок потерялся — пусть не уходит далеко и идёт к сотруднику в форме или на кассу."],
+ill:["sos"]}
+];
+
+/* ---------- data: words "j|kana|cyr|romaji|ru|en|note" ---------- */
+const CATS = [
+{id:"nums",title:"Числа",intro:"Считать по-японски просто: 25 — это «нидзюу го», то есть «два-десять-пять». А для 10 000 есть отдельное слово «ман»: 30 000 иен = «самман эн».",d:`
+一|いち|ити|ichi|один|one|
+二|に|ни|ni|два|two|
+三|さん|сан|san|три|three|
+四|よん|ён|yon|четыре|four|Ещё говорят «си».
+五|ご|го|go|пять|five|
+六|ろく|року|roku|шесть|six|
+七|なな|нана|nana|семь|seven|Ещё говорят «сити».
+八|はち|хати|hachi|восемь|eight|
+九|きゅう|кюу|kyū|девять|nine|Ещё говорят «ку».
+十|じゅう|дзюу|jū|десять|ten|
+二十|にじゅう|нидзюу|nijū|двадцать|twenty|
+百|ひゃく|хяку|hyaku|сто|hundred|
+三百|さんびゃく|самбяку|sanbyaku|триста|three hundred|
+千|せん|сэн|sen|тысяча|thousand|
+三千|さんぜん|сандзэн|sanzen|три тысячи|three thousand|
+一万|いちまん|итиман|ichiman|десять тысяч|ten thousand|
+ゼロ||дзэро|zero|ноль|zero|
+半|はん|хан|han|половина|half|`},
+{id:"count",title:"Счёт: штуки и люди",intro:"Предметы и людей японцы считают особыми словами. Не помнишь — покажи на пальцах, тебя поймут!",d:`
+一つ|ひとつ|хитоцу|hitotsu|одна штука|one (thing)|
+二つ|ふたつ|футацу|futatsu|две штуки|two (things)|
+三つ|みっつ|миццу|mittsu|три штуки|three (things)|
+四つ|よっつ|ёццу|yottsu|четыре штуки|four (things)|
+五つ|いつつ|ицуцу|itsutsu|пять штук|five (things)|
+一人|ひとり|хитори|hitori|один человек|one person|
+二人|ふたり|футари|futari|два человека|two people|
+三人|さんにん|саннин|sannin|три человека|three people|
+四人|よにん|ёнин|yonin|четыре человека|four people|
+一枚|いちまい|итимаи|ichimai|один (билет, листок)|one (flat thing)|`},
+{id:"time",title:"Время и дни",intro:"«Сандзи» — 3 часа, «сандзи хан» — половина четвёртого (дословно «3 часа и половина»).",d:`
+今|いま|има|ima|сейчас|now|
+今日|きょう|кёо|kyō|сегодня|today|
+明日|あした|асита|ashita|завтра|tomorrow|
+昨日|きのう|киноо|kinō|вчера|yesterday|
+朝|あさ|аса|asa|утро|morning|
+昼|ひる|хиру|hiru|день, полдень|noon|
+夜|よる|ёру|yoru|вечер, ночь|night|
+～時|～じ|… дзи|… ji|… часов|… o'clock|
+～分|～ふん|… фун|… fun|… минут|… minutes|
+何時|なんじ|нандзи|nanji|который час?|what time|
+毎日|まいにち|маинити|mainichi|каждый день|every day|
+週末|しゅうまつ|сюумацу|shūmatsu|выходные|weekend|
+月曜日|げつようび|гэцуёоби|getsuyōbi|понедельник|Monday|月 — луна
+火曜日|かようび|каёоби|kayōbi|вторник|Tuesday|火 — огонь
+水曜日|すいようび|суиёоби|suiyōbi|среда|Wednesday|水 — вода
+木曜日|もくようび|мокуёоби|mokuyōbi|четверг|Thursday|木 — дерево
+金曜日|きんようび|кинъёоби|kin'yōbi|пятница|Friday|金 — золото
+土曜日|どようび|доёоби|doyōbi|суббота|Saturday|土 — земля
+日曜日|にちようび|нитиёоби|nichiyōbi|воскресенье|Sunday|日 — солнце
+早く|はやく|хаяку|hayaku|быстро, рано|quickly, early|`},
+{id:"people",title:"Люди",d:`
+私|わたし|ватаси|watashi|я|I|
+あなた||аната|anata|ты, вы|you|Японцы редко говорят «аната» — чаще зовут по имени.
+友達|ともだち|томодати|tomodachi|друг|friend|
+家族|かぞく|кадзоку|kazoku|семья|family|
+お母さん|おかあさん|окаасан|okāsan|мама|mom|
+お父さん|おとうさん|отоосан|otōsan|папа|dad|
+子供|こども|кодомо|kodomo|ребёнок|child|
+男の子|おとこのこ|отоко но ко|otoko no ko|мальчик|boy|
+女の子|おんなのこ|онна но ко|onna no ko|девочка|girl|
+～さん||… сан|… san|господин/госпожа …|Mr./Ms. …|
+店員|てんいん|тэнъин|ten'in|продавец, сотрудник|shop staff|
+駅員|えきいん|экиин|ekiin|работник станции|station staff|`},
+{id:"places",title:"Места",d:`
+駅|えき|эки|eki|станция|station|
+空港|くうこう|куукоо|kūkō|аэропорт|airport|
+ホテル||хотэру|hoteru|отель|hotel|
+旅館|りょかん|рёкан|ryokan|японская гостиница|ryokan|
+店|みせ|мисэ|mise|магазин|shop|
+レストラン||рэсуторан|resutoran|ресторан|restaurant|
+コンビニ||комбини|konbini|магазин у дома|convenience store|
+トイレ||тоирэ|toire|туалет|toilet|
+お手洗い|おてあらい|отэараи|otearai|туалет (вежливо)|restroom|
+病院|びょういん|бёоин|byōin|больница|hospital|
+薬局|やっきょく|яккёку|yakkyoku|аптека|pharmacy|
+銀行|ぎんこう|гинкоо|ginkō|банк|bank|
+郵便局|ゆうびんきょく|юубинкёку|yūbinkyoku|почта|post office|
+交番|こうばん|кообан|kōban|полицейский пост|police box|
+公園|こうえん|кооэн|kōen|парк|park|
+神社|じんじゃ|дзиндзя|jinja|синтоистское святилище|shrine|
+お寺|おてら|отэра|otera|буддийский храм|temple|
+お城|おしろ|осиро|oshiro|замок|castle|
+美術館|びじゅつかん|бидзюцукан|bijutsukan|художественный музей|art museum|
+博物館|はくぶつかん|хакубуцукан|hakubutsukan|музей|museum|
+海|うみ|уми|umi|море|sea|
+山|やま|яма|yama|гора|mountain|
+町|まち|мати|machi|город, район|town|
+道|みち|мити|michi|дорога, улица|road|`},
+{id:"transport",title:"Транспорт",d:`
+電車|でんしゃ|дэнся|densha|электричка, поезд|train|
+地下鉄|ちかてつ|тикатэцу|chikatetsu|метро|subway|
+新幹線|しんかんせん|синкансэн|shinkansen|скоростной поезд|bullet train|
+バス||басу|basu|автобус|bus|
+タクシー||такусии|takushī|такси|taxi|
+飛行機|ひこうき|хикооки|hikōki|самолёт|airplane|
+自転車|じてんしゃ|дзитэнся|jitensha|велосипед|bicycle|
+切符|きっぷ|киппу|kippu|билет|ticket|
+改札|かいさつ|каисацу|kaisatsu|турникеты|ticket gate|
+ホーム||хоому|hōmu|платформа|platform|
+～番線|～ばんせん|… бансэн|… bansen|путь № …|track no. …|
+乗り場|のりば|нориба|noriba|место посадки|boarding area|
+乗り換え|のりかえ|норикаэ|norikae|пересадка|transfer|
+指定席|していせき|ситээсэки|shiteiseki|место по билету|reserved seat|
+自由席|じゆうせき|дзиюусэки|jiyūseki|свободные места|non-reserved seat|
+窓側|まどがわ|мадогава|madogawa|у окна|window side|
+通路側|つうろがわ|цуурогава|tsūrogawa|у прохода|aisle side|
+終電|しゅうでん|сюудэн|shūden|последний поезд|last train|После полуночи поезда почти не ходят — проверь время «сюудэн».`},
+{id:"food",title:"Еда и напитки",d:`
+ご飯|ごはん|гохан|gohan|рис; еда|rice; meal|
+パン||пан|pan|хлеб|bread|
+肉|にく|нику|niku|мясо|meat|
+豚肉|ぶたにく|бутанику|butaniku|свинина|pork|
+鶏肉|とりにく|торинику|toriniku|курица|chicken|
+牛肉|ぎゅうにく|гюунику|gyūniku|говядина|beef|
+魚|さかな|сакана|sakana|рыба|fish|
+えび||эби|ebi|креветка|shrimp|
+卵|たまご|тамаго|tamago|яйцо|egg|
+野菜|やさい|ясаи|yasai|овощи|vegetables|
+果物|くだもの|кудамоно|kudamono|фрукты|fruit|
+水|みず|мидзу|mizu|вода|water|
+お茶|おちゃ|отя|ocha|чай (зелёный)|tea|
+抹茶|まっちゃ|маття|matcha|маття (чай-порошок)|matcha|
+コーヒー||коохии|kōhī|кофе|coffee|
+牛乳|ぎゅうにゅう|гюунюу|gyūnyū|молоко|milk|
+ジュース||дзюусу|jūsu|сок|juice|
+ビール||бииру|bīru|пиво|beer|
+寿司|すし|суси|sushi|суши|sushi|Рисовые комочки с рыбой сверху. В Японии это скорее праздничная еда.
+ラーメン||раамэн|rāmen|рамэн|ramen|Лапша в густом бульоне с мясом. Сытно и недорого.
+うどん||удон|udon|толстая пшеничная лапша|udon|
+そば||соба|soba|гречневая лапша|soba|Бывает горячая в бульоне или холодная с соусом.
+焼きそば|やきそば|якисоба|yakisoba|жареная лапша|fried noodles|
+天ぷら|てんぷら|тэмпура|tenpura|овощи и креветки в кляре|tempura|
+焼き鳥|やきとり|якитори|yakitori|шашлычки из курицы|grilled chicken skewers|
+とんかつ||тонкацу|tonkatsu|свиная отбивная в сухарях|pork cutlet|
+カレー||карээ|karē|японское карри с рисом|curry rice|Мягче индийского, едят ложкой.
+丼|どんぶり|домбури|donburi|миска риса с начинкой|rice bowl|
+おにぎり||онигири|onigiri|рисовый треугольник|rice ball|
+弁当|べんとう|бэнтоо|bentō|обед в коробочке|lunch box|
+味噌汁|みそしる|мисосиру|misoshiru|суп мисо|miso soup|
+餃子|ぎょうざ|гёодза|gyōza|жареные пельмени|dumplings|
+おでん||одэн|oden|тушёные овощи, яйца и тофу в бульоне|oden|Зимой продаётся прямо у кассы в комбини.
+たこ焼き|たこやき|такояки|takoyaki|шарики с осьминогом|octopus balls|
+お好み焼き|おこのみやき|окономияки|okonomiyaki|капустная лепёшка с соусом|savory pancake|
+アイス||аису|aisu|мороженое|ice cream|
+お菓子|おかし|окаси|okashi|сладости|sweets|
+箸|はし|хаси|hashi|палочки|chopsticks|
+醤油|しょうゆ|сёою|shōyu|соевый соус|soy sauce|
+塩|しお|сио|shio|соль|salt|
+砂糖|さとう|сатоо|satō|сахар|sugar|
+メニュー||мэнюю|menyū|меню|menu|`},
+{id:"taste",title:"Вкус",d:`
+美味しい|おいしい|оисии|oishii|вкусный|delicious|
+辛い|からい|караи|karai|острый|spicy|
+甘い|あまい|амаи|amai|сладкий|sweet|
+しょっぱい||сёппаи|shoppai|солёный|salty|
+熱い|あつい|ацуи|atsui|горячий|hot (to touch)|
+冷たい|つめたい|цумэтаи|tsumetai|холодный|cold (to touch)|
+お腹がすいた|おなかがすいた|онака га суита|onaka ga suita|я голодный|I'm hungry|`},
+{id:"adj",title:"Какой? (описание)",intro:"Чтобы сказать вежливо, добавь «дэс»: «оисии дэс» — вкусно.",d:`
+大きい|おおきい|оокии|ōkii|большой|big|
+小さい|ちいさい|тиисаи|chiisai|маленький|small|
+高い|たかい|такаи|takai|дорогой; высокий|expensive; tall|
+安い|やすい|ясуи|yasui|дешёвый|cheap|
+新しい|あたらしい|атарасии|atarashii|новый|new|
+古い|ふるい|фуруи|furui|старый|old|
+いい||ии|ii|хороший|good|
+悪い|わるい|варуи|warui|плохой|bad|
+近い|ちかい|тикаи|chikai|близкий|near|
+遠い|とおい|тоои|tōi|далёкий|far|
+暑い|あつい|ацуи|atsui|жарко (погода)|hot (weather)|
+寒い|さむい|самуи|samui|холодно|cold (weather)|
+楽しい|たのしい|таносии|tanoshii|весёлый|fun|
+きれい||кирээ|kirei|красивый; чистый|pretty; clean|
+かわいい||каваии|kawaii|милый|cute|
+すごい||сугои|sugoi|потрясающий|amazing|
+好き|すき|суки|suki|нравится|like|
+嫌い|きらい|кираи|kirai|не нравится|dislike|
+有名|ゆうめい|юумээ|yūmei|знаменитый|famous|
+静か|しずか|сидзука|shizuka|тихий|quiet|
+危ない|あぶない|абунаи|abunai|опасно!|dangerous|
+難しい|むずかしい|мудзукасии|muzukashii|трудный|difficult|
+簡単|かんたん|кантан|kantan|лёгкий, простой|easy|
+疲れた|つかれた|цукарэта|tsukareta|устал|tired|`},
+{id:"verbs",title:"Действия",intro:"Все действия здесь в вежливой форме на «-мас» — так всегда правильно говорить с незнакомыми. «-масэн» значит «не»: «вакаримас» — понимаю, «вакаримасэн» — не понимаю.",d:`
+行きます|いきます|икимас|ikimasu|идти, ехать|go|
+来ます|きます|кимас|kimasu|приходить|come|
+帰ります|かえります|каэримас|kaerimasu|возвращаться домой|go home|
+食べます|たべます|табэмас|tabemasu|есть, кушать|eat|
+飲みます|のみます|номимас|nomimasu|пить|drink|
+買います|かいます|каимас|kaimasu|покупать|buy|
+払います|はらいます|хараимас|haraimasu|платить|pay|
+見ます|みます|мимас|mimasu|смотреть|see, watch|
+分かります|わかります|вакаримас|wakarimasu|понимать|understand|
+あります||аримас|arimasu|есть (о вещах)|there is (things)|
+います||имас|imasu|есть (о людях, животных)|there is (people)|
+待ちます|まちます|матимас|machimasu|ждать|wait|
+乗ります|のります|норимас|norimasu|садиться (в транспорт)|get on|
+降ります|おります|оримас|orimasu|выходить (из транспорта)|get off|
+歩きます|あるきます|арукимас|arukimasu|ходить пешком|walk|
+探します|さがします|сагасимас|sagashimasu|искать|look for|
+使います|つかいます|цукаимас|tsukaimasu|пользоваться|use|
+話します|はなします|ханасимас|hanashimasu|говорить|speak|
+聞きます|ききます|кикимас|kikimasu|слушать; спрашивать|listen; ask|
+書きます|かきます|какимас|kakimasu|писать|write|
+読みます|よみます|ёмимас|yomimasu|читать|read|
+撮ります|とります|торимас|torimasu|фотографировать|take (a photo)|
+寝ます|ねます|нэмас|nemasu|спать|sleep|
+起きます|おきます|окимас|okimasu|просыпаться|wake up|
+入ります|はいります|хаиримас|hairimasu|входить|enter|
+出ます|でます|дэмас|demasu|выходить|exit|
+開けます|あけます|акэмас|akemasu|открывать|open|
+閉めます|しめます|симэмас|shimemasu|закрывать|close|
+遊びます|あそびます|асобимас|asobimasu|играть, гулять|play|
+休みます|やすみます|ясумимас|yasumimasu|отдыхать|rest|
+欲しい|ほしい|хосии|hoshii|хочу (вещь)|want|`},
+{id:"questions",title:"Вопросы",intro:"Добавь «дэс ка» — и получится вежливый вопрос: «доко дэс ка?» — где?",d:`
+何|なに / なん|нани / нан|nani / nan|что?|what|
+どこ||доко|doko|где?|where|
+いつ||ицу|itsu|когда?|when|
+誰|だれ|дарэ|dare|кто?|who|
+いくら||икура|ikura|сколько стоит?|how much|
+いくつ||икуцу|ikutsu|сколько штук?|how many|
+どれ||дорэ|dore|который?|which one|
+どう||доо|dō|как?|how|
+どうして||дооситэ|dōshite|почему?|why|
+どのくらい||доно кураи|dono kurai|как долго? сколько?|how long|`},
+{id:"pointers",title:"Где? Это или то?",intro:"Японцы делят мир на три зоны: «ко» — рядом со мной, «со» — рядом с тобой, «а» — далеко от нас обоих. Отсюда これ/それ/あれ и ここ/そこ/あそこ.",d:`
+これ||корэ|kore|это (у меня)|this|
+それ||сорэ|sore|то (у тебя)|that (near you)|
+あれ||арэ|are|вон то (далеко)|that over there|
+ここ||коко|koko|здесь|here|
+そこ||соко|soko|там (у тебя)|there|
+あそこ||асоко|asoko|вон там|over there|
+右|みぎ|миги|migi|право, направо|right|
+左|ひだり|хидари|hidari|лево, налево|left|
+まっすぐ||массугу|massugu|прямо|straight|
+上|うえ|уэ|ue|верх, над|up, above|
+下|した|сита|shita|низ, под|down, below|
+前|まえ|маэ|mae|впереди, перед|in front|
+後ろ|うしろ|усиро|ushiro|сзади|behind|
+中|なか|нака|naka|внутри|inside|
+隣|となり|тонари|tonari|рядом, по соседству|next to|
+角|かど|кадо|kado|угол|corner|
+信号|しんごう|сингоо|shingō|светофор|traffic light|`},
+{id:"colors",title:"Цвета",d:`
+赤|あか|ака|aka|красный|red|
+青|あお|ао|ao|синий|blue|Зелёный сигнал светофора японцы тоже называют «ао».
+白|しろ|сиро|shiro|белый|white|
+黒|くろ|куро|kuro|чёрный|black|
+黄色|きいろ|кииро|kiiro|жёлтый|yellow|
+緑|みどり|мидори|midori|зелёный|green|
+ピンク||пинку|pinku|розовый|pink|
+茶色|ちゃいろ|тяиро|chairo|коричневый|brown|Дословно «цвет чая».`},
+{id:"money",title:"Деньги и покупки",d:`
+お金|おかね|оканэ|okane|деньги|money|
+円|えん|эн|en|иена|yen|
+現金|げんきん|гэнкин|genkin|наличные|cash|
+カード||каадо|kādo|карта|card|
+財布|さいふ|саифу|saifu|кошелёк|wallet|
+おつり||оцури|otsuri|сдача|change|
+レシート||рэсиито|reshīto|чек|receipt|
+袋|ふくろ|фукуро|fukuro|пакет|bag|
+免税|めんぜい|мэндзээ|menzei|Tax Free (без налога)|tax-free|
+税込|ぜいこみ|дзээкоми|zeikomi|цена с налогом|tax included|Столько ты и заплатишь.
+税抜|ぜいぬき|дзээнуки|zeinuki|цена без налога|tax excluded|На кассе добавят ещё около 10%.
+セール||сээру|sēru|распродажа|sale|
+サイズ||саидзу|saizu|размер|size|
+色|いろ|иро|iro|цвет|color|
+両替|りょうがえ|рёогаэ|ryōgae|обмен денег|money exchange|
+お土産|おみやげ|омиягэ|omiyage|сувенир, гостинец|souvenir|`},
+{id:"hotel",title:"Отель и рёкан",d:`
+部屋|へや|хэя|heya|комната, номер|room|
+鍵|かぎ|каги|kagi|ключ|key|
+予約|よやく|ёяку|yoyaku|бронь|reservation|
+荷物|にもつ|нимоцу|nimotsu|багаж, вещи|luggage|
+階|かい|каи|kai|этаж|floor|
+エレベーター||эрэбээтаа|erebētā|лифт|elevator|
+布団|ふとん|футон|futon|матрас-постель на полу|futon|
+タオル||таору|taoru|полотенце|towel|
+浴衣|ゆかた|юката|yukata|лёгкое кимоно|yukata|
+温泉|おんせん|онсэн|onsen|горячий источник|hot spring|
+お風呂|おふろ|офуро|ofuro|ванна, баня|bath|
+靴|くつ|куцу|kutsu|обувь|shoes|
+スリッパ||суриппа|surippa|тапочки|slippers|
+畳|たたみ|татами|tatami|соломенный пол|tatami mat|
+朝ご飯|あさごはん|асагохан|asagohan|завтрак|breakfast|
+晩ご飯|ばんごはん|бангохан|bangohan|ужин|dinner|`},
+{id:"health",title:"Здоровье",d:`
+頭|あたま|атама|atama|голова|head|
+お腹|おなか|онака|onaka|живот|stomach|
+歯|は|ха|ha|зуб|tooth|
+喉|のど|нодо|nodo|горло|throat|
+足|あし|аси|ashi|нога|leg, foot|
+手|て|тэ|te|рука, кисть|hand|
+痛い|いたい|итаи|itai|больно|it hurts|
+熱|ねつ|нэцу|netsu|температура|fever|
+薬|くすり|кусури|kusuri|лекарство|medicine|
+風邪|かぜ|кадзэ|kaze|простуда|a cold|
+医者|いしゃ|ися|isha|врач|doctor|
+けが||кэга|kega|рана, травма|injury|`},
+{id:"nature",title:"Погода и природа",d:`
+天気|てんき|тэнки|tenki|погода|weather|
+雨|あめ|амэ|ame|дождь|rain|
+雪|ゆき|юки|yuki|снег|snow|
+晴れ|はれ|харэ|hare|ясно, солнечно|sunny|
+傘|かさ|каса|kasa|зонтик|umbrella|
+桜|さくら|сакура|sakura|сакура (вишня)|cherry blossom|
+紅葉|こうよう|кооёо|kōyō|красные осенние листья|autumn leaves|
+花|はな|хана|hana|цветок|flower|
+猫|ねこ|нэко|neko|кошка|cat|
+犬|いぬ|ину|inu|собака|dog|
+鹿|しか|сика|shika|олень|deer|В городе Нара олени гуляют прямо по улицам.`},
+{id:"signs",title:"Таблички",intro:"Эти иероглифы ты увидишь на дверях, в туалетах и на станциях. Читать их не нужно — достаточно узнавать по виду, как дорожные знаки.",d:`
+入口|いりぐち|иригути|iriguchi|вход|entrance|入 «входить» + 口 «рот»: вход — это «рот», в который входят.
+出口|でぐち|дэгути|deguchi|выход|exit|出 «выходить» + 口 «рот».
+非常口|ひじょうぐち|хидзёогути|hijōguchi|запасной выход|emergency exit|Зелёная табличка с бегущим человечком.
+押|おす|осу|osu|«от себя» (толкать)|push|Пишут на дверях.
+引|ひく|хику|hiku|«на себя» (тянуть)|pull|
+男|おとこ|отоко|otoko|мужской|men|Обычно синий цвет.
+女|おんな|онна|onna|женский|women|Обычно красный цвет.
+禁煙|きんえん|кинъэн|kin'en|не курить|no smoking|
+喫煙所|きつえんじょ|кицуэндзё|kitsuenjo|место для курения|smoking area|
+営業中|えいぎょうちゅう|ээгёотюу|eigyōchū|открыто|open|
+準備中|じゅんびちゅう|дзюмбитюу|junbichū|закрыто (готовимся)|closed (preparing)|Висит на двери ресторана до открытия.
+本日休業|ほんじつきゅうぎょう|хондзицу кюугёо|honjitsu kyūgyō|сегодня не работаем|closed today|
+止まれ|とまれ|томарэ|tomare|стоп!|stop|
+危険|きけん|кикэн|kiken|опасно|danger|
+無料|むりょう|мурёо|muryō|бесплатно|free|
+有料|ゆうりょう|юурёо|yūryō|платно|paid|
+使用中|しようちゅう|сиёотюу|shiyōchū|занято|occupied|
+空き|あき|аки|aki|свободно|vacant|
+立入禁止|たちいりきんし|татиири кинси|tachiiri kinshi|вход запрещён|no entry|
+撮影禁止|さつえいきんし|сацуээ кинси|satsuei kinshi|фотографировать нельзя|no photos|
+切符売り場|きっぷうりば|киппу уриба|kippu uriba|кассы, продажа билетов|ticket office|`}
+];
+
+/* ---------- data: phrase builder ---------- */
+const TPL = [
+{name:"Дайте, пожалуйста",parts:["を","ください"],kt:"をください",ct:"о кудасаи",rt:"o kudasai",how:"を читается «о» и ставится после того, что ты просишь. ください («кудасаи») — «дайте, пожалуйста».",items:[
+["これ","","корэ","kore","вот это","Вот это, пожалуйста","This one, please"],
+["水","みず","мидзу","mizu","вода","Воды, пожалуйста","Water, please"],
+["お茶","おちゃ","отя","ocha","чай","Чай, пожалуйста","Tea, please"],
+["コーヒー","","коохии","kōhī","кофе","Кофе, пожалуйста","Coffee, please"],
+["メニュー","","мэнюю","menyū","меню","Меню, пожалуйста","The menu, please"],
+["袋","ふくろ","фукуро","fukuro","пакет","Пакет, пожалуйста","A bag, please"],
+["お箸","おはし","охаси","ohashi","палочки","Палочки, пожалуйста","Chopsticks, please"],
+["地図","ちず","тидзу","chizu","карта","Карту, пожалуйста","A map, please"],
+["切符","きっぷ","киппу","kippu","билет","Билет, пожалуйста","A ticket, please"],
+["レシート","","рэсиито","reshīto","чек","Чек, пожалуйста","The receipt, please"]]},
+{name:"Где …?",parts:["は","どこですか"],kt:"はどこですか",ct:"ва доко дэс ка",rt:"wa doko desu ka",how:"は здесь читается «ва» и значит «а вот насчёт…». どこ («доко») — «где», а ですか («дэс ка») превращает всё в вежливый вопрос.",items:[
+["トイレ","","тоирэ","toire","туалет","Где туалет?","Where is the toilet?"],
+["駅","えき","эки","eki","станция","Где станция?","Where is the station?"],
+["出口","でぐち","дэгути","deguchi","выход","Где выход?","Where is the exit?"],
+["入口","いりぐち","иригути","iriguchi","вход","Где вход?","Where is the entrance?"],
+["コンビニ","","комбини","konbini","комбини","Где магазин комбини?","Where is a convenience store?"],
+["切符売り場","きっぷうりば","киппу уриба","kippu uriba","касса","Где продают билеты?","Where is the ticket office?"],
+["バス乗り場","ばすのりば","басу нориба","basu noriba","автобус","Где посадка на автобус?","Where is the bus stop?"],
+["コインロッカー","","коин роккаа","koin rokkā","камера хранения","Где камеры хранения?","Where are the coin lockers?"],
+["エレベーター","","эрэбээтаа","erebētā","лифт","Где лифт?","Where is the elevator?"],
+["交番","こうばん","кообан","kōban","полиция","Где полицейский пост?","Where is the police box?"],
+["薬局","やっきょく","яккёку","yakkyoku","аптека","Где аптека?","Where is a pharmacy?"]]},
+{name:"У вас есть …?",parts:["は","ありますか"],kt:"はありますか",ct:"ва аримас ка",rt:"wa arimasu ka",how:"あります («аримас») — «есть, имеется». か («ка») в конце — вопрос.",items:[
+["英語のメニュー","えいごのめにゅー","ээго но мэнюю","eigo no menyū","меню на английском","Есть меню на английском?","Do you have an English menu?"],
+["Wi-Fi","わいふぁい","ваифаи","waifai","Wi-Fi","Здесь есть Wi-Fi?","Is there Wi-Fi?"],
+["大きいサイズ","おおきいさいず","оокии саидзу","ōkii saizu","размер побольше","Есть размер побольше?","Do you have a bigger size?"],
+["小さいサイズ","ちいさいさいず","тиисаи саидзу","chiisai saizu","размер поменьше","Есть размер поменьше?","Do you have a smaller size?"],
+["子供用の椅子","こどもようのいす","кодомо ёо но ису","kodomo-yō no isu","детский стульчик","Есть детский стульчик?","Do you have a child's chair?"],
+["地図","ちず","тидзу","chizu","карта","У вас есть карта?","Do you have a map?"],
+["傘","かさ","каса","kasa","зонтик","У вас есть зонтики?","Do you have umbrellas?"]]},
+{name:"Довезите до …",parts:["まで","お願いします"],kt:"までおねがいします",ct:"мадэ онэгаи симас",rt:"made onegai shimasu",how:"まで («мадэ») — «до». お願いします («онэгаи симас») — «прошу». Скажи таксисту и покажи экран с адресом.",items:[
+["駅","えき","эки","eki","станция","До станции, пожалуйста","To the station, please"],
+["空港","くうこう","куукоо","kūkō","аэропорт","До аэропорта, пожалуйста","To the airport, please"],
+["このホテル","このほてる","коно хотэру","kono hoteru","этот отель","До этого отеля, пожалуйста","To this hotel, please"],
+["この住所","このじゅうしょ","коно дзюусё","kono jūsho","этот адрес","По этому адресу, пожалуйста","To this address, please"]]},
+{name:"Болит …",parts:["が","痛いです"],kt:"がいたいです",ct:"га итаи дэс",rt:"ga itai desu",how:"が («га») показывает, что именно. 痛い («итаи») — «больно». Покажи ещё и пальцем.",items:[
+["頭","あたま","атама","atama","голова","Болит голова","I have a headache"],
+["お腹","おなか","онака","onaka","живот","Болит живот","I have a stomachache"],
+["歯","は","ха","ha","зуб","Болит зуб","I have a toothache"],
+["喉","のど","нодо","nodo","горло","Болит горло","I have a sore throat"],
+["足","あし","аси","ashi","нога","Болит нога","My leg hurts"]]},
+{name:"Я потерял …",parts:["を","なくしました"],kt:"をなくしました",ct:"о накусимасита",rt:"o nakushimashita",how:"なくしました («накусимасита») — «потерял». С этой фразой иди в 交番 (полицейский пост) или к сотруднику станции.",items:[
+["財布","さいふ","саифу","saifu","кошелёк","Я потерял кошелёк","I lost my wallet"],
+["パスポート","","паспоото","pasupōto","паспорт","Я потерял паспорт","I lost my passport"],
+["スマホ","","сумахо","sumaho","телефон","Я потерял телефон","I lost my phone"],
+["鍵","かぎ","каги","kagi","ключ","Я потерял ключ","I lost my key"],
+["切符","きっぷ","киппу","kippu","билет","Я потерял билет","I lost my ticket"]]}
+];
+
+const QUICK = ["p-basics-4","p-basics-3","p-directions-1","p-restaurant-2","p-restaurant-11","p-basics-14","p-basics-16","p-basics-8","p-help-0"];
+
+/* ---------- index ---------- */
+const ALL = {};
+const mk = a => ({j:a[0],k:a[1]||"",c:a[2],r:a[3],t:a[4],e:a[5]||"",n:a[6]||""});
+SITS.forEach(s=>{
+  s.phrases.forEach((p,i)=>{ALL[`p-${s.id}-${i}`]={kind:"p",sid:s.id,...mk(p)}});
+  s.hear.forEach((p,i)=>{ALL[`h-${s.id}-${i}`]={kind:"h",sid:s.id,...mk(p)}});
+});
+CATS.forEach(c=>{
+  c.ids=[];
+  c.d.trim().split("\n").forEach((l,i)=>{const id=`w-${c.id}-${i}`;ALL[id]={kind:"w",cat:c.id,...mk(l.split("|"))};c.ids.push(id)});
+});
+TPL.forEach((t,ti)=>t.items.forEach((x,ii)=>{
+  ALL[`b-${ti}-${ii}`]={kind:"b",j:x[0]+t.parts.join(""),k:(x[1]||x[0])+t.kt,c:x[2]+" "+t.ct,r:x[3]+" "+t.rt,t:x[5],e:x[6],n:""};
+}));
+const norm = s => (s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/ё/g,"е");
+Object.values(ALL).forEach(o=>{o.hay=norm([o.j,o.k,o.c,o.r,o.t,o.e].join(" "))});
+const sitIds = s => [...s.phrases.map((_,i)=>`p-${s.id}-${i}`),...s.hear.map((_,i)=>`h-${s.id}-${i}`)];
+
+/* ---------- storage ---------- */
+const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const favs=new Set(store.get("jp-favs",[]).filter(id=>ALL[id]));
+const known=new Set(store.get("jp-known",[]).filter(id=>ALL[id]));
+const S=Object.assign({romaji:true,en:true,kana:true},store.get("jp-settings",{}));
+function applySettings(){const r=document.documentElement;r.classList.toggle("no-romaji",!S.romaji);r.classList.toggle("no-en",!S.en);r.classList.toggle("no-kana",!S.kana)}
+applySettings();
+const isFav=id=>favs.has(id);
+
+/* ---------- helpers ---------- */
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const plural=(n,f)=>{const a=n%10,b=n%100;return f[(a===1&&b!==11)?0:(a>=2&&a<=4&&(b<10||b>=20))?1:2]};
+const IC={
+ speaker:'<svg class="ic" viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>',
+ star:'<svg class="ic" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg>',
+ expand:'<svg class="ic" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>',
+ back:'<svg class="ic" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>',
+ chev:'<svg class="ic" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>',
+ search:'<svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>',
+ copy:'<svg class="ic" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg>'
+};
+const badge=(s,big)=>`<span class="badge${big?" big":""}" style="--lc:${s.col}"><b>${s.L}</b><i>${String(SITS.indexOf(s)+1).padStart(2,"0")}</i></span>`;
+function tools(id){const f=isFav(id);return `<button class="tool" data-act="speak" data-id="${id}" aria-label="Послушать">${IC.speaker}</button><button class="tool fav${f?" on":""}" data-act="fav" data-id="${id}" aria-label="В избранное" aria-pressed="${f}">${IC.star}</button><button class="tool" data-act="show" data-id="${id}" aria-label="Показать японцу">${IC.expand}</button>`}
+function card(id){const p=ALL[id];return `<article class="card${p.kind==="h"?" hear":""}"><div class="card-body">${p.kind==="h"?'<span class="hear-tag">Тебе скажут</span>':""}<div class="jp" lang="ja">${esc(p.j)}</div>${p.k&&p.k!==p.j?`<div class="kana" lang="ja">${esc(p.k)}</div>`:""}<div class="say">${esc(p.c)}</div><div class="romaji">${esc(p.r)}</div><div class="mean">${esc(p.t)}</div>${p.e?`<div class="en"><span>EN</span>${esc(p.e)}</div>`:""}${p.n?`<p class="note">${esc(p.n)}</p>`:""}</div><div class="card-tools">${tools(id)}</div></article>`}
+function row(id){const w=ALL[id];const f=isFav(id);return `<div class="row${w.cat==="signs"?" sign":""}"><button class="row-main" data-act="show" data-id="${id}"><span class="row-jpw"><span class="row-jp" lang="ja">${esc(w.j)}</span>${w.k&&w.k!==w.j?`<span class="row-kana" lang="ja">${esc(w.k)}</span>`:""}</span><span class="row-txt"><span class="row-say">${esc(w.c)}</span><span class="romaji">${esc(w.r)}</span><span class="row-mean">${esc(w.t)}</span>${w.n?`<span class="row-note">${esc(w.n)}</span>`:""}</span></button><button class="tool sm" data-act="speak" data-id="${id}" aria-label="Послушать">${IC.speaker}</button><button class="tool sm fav${f?" on":""}" data-act="fav" data-id="${id}" aria-label="В избранное" aria-pressed="${f}">${IC.star}</button></div>`}
+const spoken=p=>((p.k&&!p.k.includes("/"))?p.k:p.j).replace(/[～…]/g,"、");
+
+/* ---------- illustrations ---------- */
+function person(x,ang,o={}){
+  const arm=o.hands?`<path class="st" d="M${x} 40 L${x+13} 46"/>`:`<path class="st" d="M${x} 40 L${x+3} 58"/>`;
+  const g=`<g><path class="st" d="M${x} 62 L${x-5} 92 M${x} 62 L${x+5} 92"/><g transform="rotate(${ang} ${x} 62)"><path class="st" d="M${x} 62 V34"/>${arm}<circle class="st fl-s" cx="${x}" cy="25" r="8"/></g></g>`;
+  return o.flip?`<g transform="translate(${2*x} 0) scale(-1 1)">${g}</g>`:g;
+}
+const fig=(title,svg,cap)=>`<figure class="fig">${title?`<h3>${title}</h3>`:""}${svg}${cap?`<figcaption>${cap}</figcaption>`:""}</figure>`;
+const ILL={
+ bow:()=>fig("Как кланяться",`<svg viewBox="0 0 260 104" role="img" aria-label="Лёгкий кивок и глубокий поклон"><path class="st st-th" d="M10 93 H250" style="stroke:var(--line)"/>${person(70,15)}${person(190,70)}<text class="tx-m" x="70" y="104" font-size="10" text-anchor="middle">кивок</text><text class="tx-m" x="190" y="104" font-size="10" text-anchor="middle">глубокий поклон</text></svg>`,"Лёгкого кивка с улыбкой хватает почти всегда. Глубоко кланяются, когда очень благодарят или извиняются."),
+ noren:()=>fig("Занавески в онсэне",`<svg viewBox="0 0 300 120" role="img" aria-label="Синяя занавеска с 男 и красная с 女"><path class="st" d="M12 12 H288"/><g><path d="M24 14h112v86h-112z" fill="#2F5D9E"/><path d="M61 14v86M99 14v86" stroke="#1E3F70" stroke-width="2"/><text x="80" y="72" font-size="44" text-anchor="middle" fill="#fff" font-family="var(--font-jp)" font-weight="700" lang="ja">男</text></g><g><path d="M164 14h112v86h-112z" fill="#C23B3B"/><path d="M201 14v86M239 14v86" stroke="#8E2525" stroke-width="2"/><text x="220" y="72" font-size="44" text-anchor="middle" fill="#fff" font-family="var(--font-jp)" font-weight="700" lang="ja">女</text></g><text class="tx-m" x="80" y="116" font-size="11" text-anchor="middle">мужская</text><text class="tx-m" x="220" y="116" font-size="11" text-anchor="middle">женская</text></svg>`,"Обычно синяя — для мужчин, красная — для женщин. Но цвет бывает другим, а купальни иногда меняют местами. Смотри на иероглиф!"),
+ yukata:()=>fig("Как надеть юкату",`<svg viewBox="0 0 180 176" role="img" aria-label="Юката: левая пола поверх правой"><path class="st fl-2" d="M50 26 L12 34 L12 88 L50 82 L46 170 L134 170 L130 82 L168 88 L168 34 L130 26 Z"/><circle class="st fl-s" cx="90" cy="14" r="10"/><path class="st" d="M72 26 L92 64"/><path class="st" style="stroke-width:5" d="M110 26 L58 124"/><rect x="47" y="96" width="86" height="18" class="fl-a"/><path class="st" d="M120 140 q16 -6 22 -24" style="stroke:var(--accent)"/><path class="st" d="M137 120 l5 -5 2 7" style="stroke:var(--accent)"/></svg>`,"Левая пола запахивается поверх правой. Если смотреть на человека спереди, ворот похож на букву «y». Наоборот запахивают только на похоронах."),
+ ticket:()=>fig("Автомат с билетиками 食券機",`<div class="tm"><svg viewBox="0 0 200 214" role="img" aria-label="Автомат для покупки билетика на еду"><rect class="st fl-2" x="10" y="6" width="180" height="202" rx="12"/><rect class="fl-ink" x="22" y="16" width="156" height="24" rx="5"/><text x="100" y="33" font-size="13" text-anchor="middle" fill="var(--bg)" font-family="var(--font-jp)" font-weight="700" lang="ja">食券</text>${[["ラーメン",0,0],["チャーシュー",1,0],["味玉",2,0],["餃子",0,1],["ライス",1,1],["大盛",2,1],["ビール",0,2],["ジュース",1,2],["水",2,2]].map(([t,c,r])=>`<rect class="st st-th ${c===0&&r===0?"fl-as":"fl-s"}" x="${24+c*52}" y="${50+r*36}" width="46" height="28" rx="5"/><text class="tx" x="${47+c*52}" y="${68+r*36}" font-size="${t.length>4?7:9}" text-anchor="middle">${t}</text>`).join("")}<rect class="fl-ink" x="28" y="166" width="58" height="7" rx="3"/><circle class="st st-th" cx="110" cy="170" r="6"/><rect class="fl-ink" x="128" y="186" width="50" height="7" rx="3"/><rect x="138" y="180" width="30" height="20" fill="#F7F3E8" stroke="#bbb"/>${[["1",57,152],["2",30,46],["3",153,170]].map(([n,x,y])=>`<circle class="fl-a" cx="${x}" cy="${y}" r="9"/><text x="${x}" y="${y+4}" font-size="11" text-anchor="middle" fill="var(--on-accent)" font-family="var(--font-ui)" font-weight="900">${n}</text>`).join("")}</svg><ol><li>Вставь деньги — купюру или монетки.</li><li>Нажми кнопку с блюдом. Кнопки с картинками, их можно сфотографировать и перевести.</li><li>Забери билетик и сдачу.</li><li>Отдай билетик повару или официанту и садись.</li></ol></div>`,"Такие автоматы стоят у входа во многих раменных и недорогих кафе."),
+ chopsticks:()=>fig("Палочки: так нельзя и так можно",`<div class="two"><div><svg viewBox="0 0 120 100" role="img" aria-label="Палочки воткнуты в рис — нельзя"><path class="st fl-2" d="M18 50 h84 a42 36 0 0 1 -84 0 z"/><path class="st st-th fl-s" d="M24 50 q36 -22 72 0"/><path d="M53 8 L55 46 M66 6 L64 46" stroke="#B07A45" stroke-width="4" stroke-linecap="round"/><circle cx="98" cy="18" r="12" style="fill:var(--bad)"/><path d="M93 13 l10 10 M103 13 l-10 10" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg>Втыкать в рис</div><div><svg viewBox="0 0 120 100" role="img" aria-label="Палочки лежат на подставке — можно"><path class="st fl-2" d="M18 34 h84 a42 34 0 0 1 -84 0 z"/><path class="st st-th fl-s" d="M24 34 q36 -20 72 0"/><path d="M16 88 L104 84 M16 94 L104 90" stroke="#B07A45" stroke-width="4" stroke-linecap="round"/><ellipse cx="26" cy="94" rx="9" ry="4" class="fl-m"/><circle cx="98" cy="14" r="12" style="fill:var(--good)"/><path d="M92 14 l4 4 8 -8" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Положить на подставку</div></div>`,"Палочки, воткнутые в рис стоймя, и передача еды из палочек в палочки бывают только на похоронах. За столом так не делают."),
+ coins:()=>fig("Японские деньги",`<svg viewBox="0 0 332 160" role="img" aria-label="Монеты 1, 5, 10, 50, 100, 500 иен и купюры 1000, 5000, 10000 иен">${[[1,30,20,"#DADFE4",0],[5,80,22,"#D9A93F",5],[10,133.5,23.5,"#B8683C",0],[50,186,21,"#CDD2D7",4],[100,237.6,22.6,"#C4CACF",0],[500,294.7,26.5,"#CDB46A",0]].map(([v,x,r,c,h])=>`<circle cx="${x}" cy="32" r="${r}" fill="${c}" stroke="rgba(0,0,0,.25)" stroke-width="1.5"/><circle cx="${x}" cy="32" r="${r-4}" fill="none" stroke="rgba(0,0,0,.12)"/>${h?`<circle cx="${x}" cy="32" r="${h}" class="fl-s" stroke="rgba(0,0,0,.25)"/>`:`<text x="${x}" y="37" font-size="${v>99?12:14}" text-anchor="middle" fill="#1d1d1d" font-family="var(--font-ui)" font-weight="900">${v}</text>`}<text class="tx-ui" x="${x}" y="76" font-size="11" text-anchor="middle">${v} 円</text>`).join("")}${[[1000,10,"#7FA0C6"],[5000,118,"#B49BCB"],[10000,226,"#C8A77A"]].map(([v,x,c])=>`<rect x="${x}" y="96" width="96" height="50" rx="5" fill="${c}" stroke="rgba(0,0,0,.2)"/><circle cx="${x+72}" cy="121" r="13" fill="rgba(255,255,255,.35)"/><text x="${x+10}" y="127" font-size="15" fill="#15181b" font-family="var(--font-ui)" font-weight="900">${v.toLocaleString("ru-RU")}</text>`).join("")}</svg>`,"Монетки 5 и 50 иен — с дырочкой посередине. Монетку 5 иен (го-эн) считают счастливой: «го-эн» звучит как «удачная встреча»."),
+ price:()=>fig("Как читать ценник",`<div class="tags"><div class="ptag"><strong>¥1,000</strong><small lang="ja">税抜</small><em>дзээнуки — без налога</em></div><div class="ptag"><strong>¥1,100</strong><small lang="ja">税込</small><em>дзээкоми — с налогом, столько и заплатишь</em></div></div>`,"Часто на ценнике пишут обе цены. Смотри на ту, где 税込."),
+ koko:()=>fig("Здесь, там и вон там",`<svg viewBox="0 0 340 112" role="img" aria-label="ここ рядом со мной, そこ рядом с тобой, あそこ далеко"><ellipse cx="52" cy="93" rx="38" ry="9" class="fl-as"/><ellipse cx="172" cy="93" rx="38" ry="9" class="fl-2"/><ellipse cx="292" cy="93" rx="38" ry="9" class="fl-2" style="opacity:.6"/><path class="st st-th" d="M8 93 H332" style="stroke:var(--line)"/>${person(44,0)}${person(176,0,{flip:true})}<rect x="288" y="62" width="8" height="30" class="fl-m"/><circle cx="292" cy="50" r="20" fill="#5DA271"/><text class="tx" x="52" y="110" font-size="13" text-anchor="middle">ここ</text><text class="tx" x="172" y="110" font-size="13" text-anchor="middle">そこ</text><text class="tx" x="292" y="110" font-size="13" text-anchor="middle">あそこ</text></svg><div class="legend"><div><b lang="ja">ここ · これ</b>коко · корэ<br>здесь, это — рядом со мной</div><div><b lang="ja">そこ · それ</b>соко · сорэ<br>там, то — рядом с тобой</div><div><b lang="ja">あそこ · あれ</b>асоко · арэ<br>вон там — далеко от нас обоих</div></div>`,""),
+ arrows:()=>fig("Куда идти",`<div class="dirs">${[["M20 34 V8 M10 18 L20 8 L30 18","まっすぐ","массугу","прямо"],["M6 20 H34 M24 10 L34 20 L24 30","右","миги","направо"],["M34 20 H6 M16 10 L6 20 L16 30","左","хидари","налево"]].map(([d,j,c,r])=>`<div class="dir"><svg viewBox="0 0 40 40"><path class="st" style="stroke:var(--accent);stroke-width:4" d="${d}"/></svg><span class="d-jp" lang="ja">${j}</span><span class="d-c">${c}</span><span class="d-r">${r}</span></div>`).join("")}</div>`,"Если не понял слова — смотри на руку: японцы обычно показывают направление ладонью."),
+ shrine:()=>fig("Святилище или храм?",`<div class="two"><div><svg viewBox="0 0 140 110" role="img" aria-label="Ворота тории"><path d="M8 22 Q70 32 132 22 L130 32 Q70 40 10 32 Z" fill="#D9472B"/><rect x="24" y="44" width="92" height="7" fill="#D9472B"/><rect x="34" y="30" width="9" height="74" fill="#D9472B"/><rect x="97" y="30" width="9" height="74" fill="#D9472B"/><rect x="66" y="36" width="8" height="10" fill="#D9472B"/><path class="st st-th" d="M4 104 H136" style="stroke:var(--line)"/></svg><b lang="ja">神社</b> дзиндзя<br><span style="font-weight:600;color:var(--muted)">Синтоистское святилище. Узнаешь по воротам тории. Здесь хлопают в ладоши.</span></div><div><svg viewBox="0 0 140 110" role="img" aria-label="Пагода"><path d="M70 4 V20" class="st"/><path d="M40 28 L100 28 L88 20 L52 20 Z M34 50 L106 50 L92 40 L48 40 Z M28 74 L112 74 L96 62 L44 62 Z" class="fl-ink"/><rect x="56" y="28" width="28" height="12" class="fl-m"/><rect x="52" y="50" width="36" height="12" class="fl-m"/><rect x="48" y="74" width="44" height="30" class="fl-m"/><path class="st st-th" d="M4 104 H136" style="stroke:var(--line)"/></svg><b lang="ja">お寺</b> отэра<br><span style="font-weight:600;color:var(--muted)">Буддийский храм: пагода, статуи Будды, благовония. Здесь не хлопают.</span></div></div>`,""),
+ prayer:()=>{const f=(inner)=>`<svg viewBox="0 0 100 100">${inner}<path class="st st-th" d="M4 93 H96" style="stroke:var(--line)"/></svg>`;
+   const box=`<rect x="64" y="72" width="30" height="20" class="fl-2" stroke="var(--ink)" stroke-width="2"/><path d="M68 78 H90 M68 84 H90" stroke="var(--ink)" stroke-width="1.5"/>`;
+   const steps=[[f(person(34,0)+box+`<circle cx="78" cy="56" r="5" fill="#D9A93F"/><path d="M60 44 q14 -6 18 6" fill="none" stroke="var(--muted)" stroke-dasharray="3 3"/>`),"Монетка в ящик"],[f(person(30,80)),"2 поклона"],[f(person(36,0,{hands:true})+`<path d="M54 36 l6 -5 M56 46 l8 0 M54 54 l6 4" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round"/>`),"2 хлопка"],[f(person(36,8,{hands:true})),"Молитва про себя"],[f(person(30,80)),"1 поклон"]];
+   return fig("Как молиться в святилище 神社",`<div class="steps">${steps.map((s,i)=>`<div class="step">${s[0]}<b>${i+1}</b><span>${s[1]}</span></div>`).join("")}</div>`,"Сумма монетки не важна. В буддийском храме (お寺) не хлопают: просто сложи ладони, поклонись и помолись.")},
+ bus:()=>fig("Как ехать на автобусе с билетиком",`<div class="bus-top"><div class="seiri"><span lang="ja">整理券</span><b>7</b></div><div class="board" aria-label="Табло с ценами">${[1,2,3,4,5,6,7,8].map(n=>`<div class="n${n===7?" hit":""}">${n}</div>`).join("")}${[210,210,230,260,290,320,350,380].map((p,i)=>`<div class="${i===6?"hit":""}">${p}</div>`).join("")}</div></div><div class="bus"><ol><li>Заходи и возьми билетик 整理券 «сээрикэн» с номером своей остановки.</li><li>Смотри на табло над водителем: под твоим номером показана цена, она растёт по пути.</li><li>Нажми кнопку «стоп» перед своей остановкой.</li><li>При выходе положи билетик и деньги в ящик у водителя. Или приложи Suica.</li></ol></div>`,"Так устроены многие автобусы за пределами центра Токио. В Токио обычно заходят спереди и платят сразу."),
+ sos:()=>fig("Важные номера",`<div class="sos"><div><strong>110</strong><span>Полиция</span><small lang="ja">警察</small></div><div><strong>119</strong><span>Скорая и пожарные</span><small lang="ja">救急・消防</small></div></div><div class="hotline"><code id="hotline-num">050-3816-2787</code><button class="chip" data-act="copy" data-copy="050-3816-2787">${IC.copy}Скопировать</button><span>Japan Visitor Hotline — круглосуточная помощь туристам на английском.</span></div>`,"Звонок на 110 и 119 бесплатный, даже с телефона без денег на счету.")
+};
+
+/* ---------- views ---------- */
+const view=document.getElementById("view");
+function vHome(){
+  const nP=Object.values(ALL).filter(o=>o.kind==="p"||o.kind==="h").length, nW=Object.values(ALL).filter(o=>o.kind==="w").length;
+  return `<section class="hero"><span class="eyebrow">Разговорник для поездки</span><h1>Японский в кармане</h1><p class="lead">Самые нужные слова и фразы — просто, как для 10-летнего. Выучи заранее, а в Японии открывай нужную ситуацию и показывай фразу на экране.</p><div class="stats"><span>${SITS.length} ситуаций</span><span>${nP} ${plural(nP,["фраза","фразы","фраз"])}</span><span>${nW} ${plural(nW,["слово","слова","слов"])}</span></div></section>
+  <section class="sec"><h2>Нужно прямо сейчас</h2><div class="quick">${QUICK.map(id=>{const p=ALL[id];return `<button class="qchip" data-act="show" data-id="${id}"><span class="q-jp" lang="ja">${esc(p.j)}</span><span class="q-ru">${esc(p.t.split(" / ")[0])}</span></button>`}).join("")}</div></section>
+  <section class="sec"><h2>Маршрут поездки</h2><div class="linemap">${SITS.map(s=>{const n=s.phrases.length+s.hear.length;return `<a class="stop" href="#s-${s.id}" style="--lc:${s.col}">${badge(s)}<span><span class="stop-t">${s.title}</span><span class="stop-s">${s.sub}</span></span><span class="stop-n">${n} ${plural(n,["фраза","фразы","фраз"])}${IC.chev}</span></a>`}).join("")}</div><p class="map-note">Каждая тема окрашена в цвет настоящей линии токийского метро, а номер — как номер станции на табличках.</p></section>
+  <section class="sec"><h2>Инструменты</h2><div class="tools-grid">
+    <a class="tool-tile" href="#build"><span class="tt-jp" lang="ja">～ください</span><b>Конструктор фраз</b><span>Собери свою фразу из слова и «хвостика»</span></a>
+    <a class="tool-tile" href="#words-signs"><span class="tt-jp" lang="ja">出口</span><b>Таблички</b><span>Выход, вход, туалет, «закрыто»</span></a>
+    <a class="tool-tile" href="#learn"><span class="tt-jp" lang="ja">覚える</span><b>Учить карточки</b><span>Проверь себя перед поездкой</span></a>
+    <a class="tool-tile" href="#read"><span class="tt-jp" lang="ja">あア漢</span><b>Как читать</b><span>Три азбуки и как произносить</span></a>
+  </div></section>`;
+}
+function vSit(id){
+  const s=SITS.find(x=>x.id===id); if(!s) return vHome();
+  const i=SITS.indexOf(s), prev=SITS[i-1], next=SITS[i+1];
+  const jumps=[["sec-phrases","Фразы"]];
+  if(s.hear.length) jumps.push(["sec-hear","Тебе скажут"]);
+  jumps.push(["sec-dialog","Диалог"],["sec-tips","Советы"],["sec-words","Слова"]);
+  return `<div style="--lc:${s.col}"><a class="back" href="#home">${IC.back}Маршрут</a>
+  <div class="track">${badge(s,true)}${next?`<a class="nexttag" href="#s-${next.id}" style="--lc:${next.col}">Дальше: ${next.title}</a>`:""}</div>
+  <h1>${s.title}</h1><p class="lead">${s.intro}</p>
+  <div class="jump">${jumps.map(([t,l])=>`<button class="chip" data-act="jump" data-target="${t}">${l}</button>`).join("")}</div>
+  <section class="sec" id="sec-phrases"><h2>Фразы <small>${s.phrases.length}</small></h2><div class="stack">${s.phrases.map((_,k)=>card(`p-${s.id}-${k}`)).join("")}</div></section>
+  ${s.hear.length?`<section class="sec" id="sec-hear"><h2>Что тебе скажут</h2><p class="lead" style="margin:-4px 0 12px">Эти фразы говорить не нужно — важно понять их на слух.</p><div class="stack">${s.hear.map((_,k)=>card(`h-${s.id}-${k}`)).join("")}</div></section>`:""}
+  <section class="sec" id="sec-dialog"><h2>Как это звучит</h2><div class="dlg"><div class="dlg-title">Ты и ${s.dialog.them.toLowerCase()}</div>${s.dialog.lines.map(([w,j,c,t],k)=>`<div class="bub ${w}"><span class="who">${w==="y"?"Ты":s.dialog.them}</span><div><div class="jp" lang="ja">${esc(j)}</div><div class="say">${esc(c)}</div><div class="mean">${esc(t)}</div></div><button class="tool" data-act="say" data-text="${esc(j)}" aria-label="Послушать">${IC.speaker}</button></div>`).join("")}</div></section>
+  <section class="sec" id="sec-tips"><h2>Полезно знать</h2><ul class="tips">${s.tips.map(t=>`<li>${esc(t)}</li>`).join("")}</ul>${s.ill.length?`<div class="figs">${s.ill.map(k=>ILL[k]()).join("")}</div>`:""}${s.src?`<p class="src">Подробнее: <a href="${s.src}" target="_blank" rel="noopener">статья на wrenjapan.com</a></p>`:""}</section>
+  <section class="sec" id="sec-words"><h2>Слова по теме</h2><div class="chips-wrap">${s.words.map(c=>{const cat=CATS.find(x=>x.id===c);return `<a class="chip" href="#words-${c}">${cat.title} <span class="cnt">${cat.ids.length}</span></a>`}).join("")}</div></section>
+  <section class="sec"><div class="tools-grid">${prev?`<a class="tool-tile" href="#s-${prev.id}"><span class="stop-n">${IC.back}Назад</span><b>${prev.title}</b></a>`:"<span></span>"}${next?`<a class="tool-tile" href="#s-${next.id}" style="text-align:right;align-items:flex-end"><span class="stop-n">Дальше${IC.chev}</span><b>${next.title}</b></a>`:""}</div></section></div>`;
+}
+function vWords(cat){
+  const c=CATS.find(x=>x.id===cat);
+  const chips=`<div class="jump"><a class="chip${!c?" on":""}" href="#words">Все</a>${CATS.map(x=>`<a class="chip${c&&c.id===x.id?" on":""}" href="#words-${x.id}">${x.title}</a>`).join("")}</div>`;
+  const block=x=>`${x.intro?`<p class="cat-intro">${esc(x.intro)}</p>`:""}<div class="rows">${x.ids.map(row).join("")}</div>`;
+  return `<section><h1>Словарь</h1><p class="lead">${Object.values(ALL).filter(o=>o.kind==="w").length} слов по темам. Нажми на слово — оно откроется крупно, чтобы показать японцу.</p>${chips}</section>
+  ${c?`<section class="sec" style="margin-top:16px"><h2 style="margin-bottom:12px">${c.title}</h2>${block(c)}</section>`:CATS.map(x=>`<section class="sec" style="margin-top:22px"><h2 style="margin-bottom:10px">${x.title}</h2>${block(x)}</section>`).join("")}`;
+}
+let B={t:0,i:0};
+function buildBox(){
+  const T=TPL[B.t],it=T.items[B.i];
+  return `<div class="tpl-list">${TPL.map((t,i)=>`<button class="tpl${i===B.t?" on":""}" data-act="tpl" data-i="${i}"><span class="tpl-jp" lang="ja">～${t.parts.join("")}</span><span class="tpl-ru">${t.name}</span></button>`).join("")}</div>
+  <div class="formula"><span class="blk slot" lang="ja">${esc(it[0])}</span>${T.parts.map((p,k)=>`<span class="plus">+</span><span class="blk p${k}" lang="ja">${p}</span>`).join("")}</div>
+  <p class="how">${esc(T.how)}</p>
+  <h2 class="h-sm">Выбери слово</h2>
+  <div class="chips-wrap">${T.items.map((x,i)=>`<button class="chip${i===B.i?" on":""}" data-act="item" data-i="${i}"><span lang="ja">${esc(x[0])}</span> ${esc(x[4])}</button>`).join("")}</div>
+  <h2 class="h-sm">Готовая фраза</h2>${card(`b-${B.t}-${B.i}`)}`;
+}
+function vBuild(){return `<section><h1>Конструктор фраз</h1><p class="lead">Японские фразы собираются как конструктор: берёшь слово и пристёгиваешь к нему «хвостик». Выбери формулу, потом слово — и покажи готовую фразу японцу.</p></section><div id="build-box">${buildBox()}</div>`}
+let L={deck:null,dir:"jr",queue:[],i:0,rev:false};
+function deckInfo(key){
+  if(key==="fav") return {name:"Избранное",ids:[...favs]};
+  const [t,id]=key.split(":");
+  if(t==="s"){const s=SITS.find(x=>x.id===id);return {name:s.title,ids:sitIds(s)}}
+  const c=CATS.find(x=>x.id===id);return {name:c.title,ids:c.ids};
+}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function deckChip(key){const d=deckInfo(key);const k=d.ids.filter(id=>known.has(id)).length;return `<button class="chip" data-act="deck" data-deck="${key}"${d.ids.length?"":" disabled"}>${d.name} <span class="cnt">${k}/${d.ids.length}</span></button>`}
+function learnBox(){
+  if(!L.deck) return `<div class="seg" role="group" aria-label="Сторона карточки"><button class="${L.dir==="jr"?"on":""}" data-act="dir" data-dir="jr">Японский → русский</button><button class="${L.dir==="rj"?"on":""}" data-act="dir" data-dir="rj">Русский → японский</button></div>
+  <div class="deck-h">Своя колода</div><div class="chips-wrap">${deckChip("fav")}</div>
+  <div class="deck-h">Ситуации</div><div class="chips-wrap">${SITS.map(s=>deckChip("s:"+s.id)).join("")}</div>
+  <div class="deck-h">Слова</div><div class="chips-wrap">${CATS.map(c=>deckChip("w:"+c.id)).join("")}</div>
+  <p class="map-note">Цифры показывают, сколько карточек ты уже отметил «Знаю». Отметки хранятся только на этом устройстве.</p>`;
+  const d=deckInfo(L.deck);
+  const kn=d.ids.filter(id=>known.has(id)).length;
+  if(L.i>=L.queue.length) return `<div class="learn-top"><b>${d.name}</b></div><div class="flash"><div class="front-ru">Готово!</div><p class="lead" style="text-align:center">Ты прошёл все карточки. Выучено ${kn} из ${d.ids.length}.</p></div><div class="btns"><button class="btn pri" data-act="restart">Ещё раз</button><button class="btn" data-act="decks">Другая колода</button></div>`;
+  const id=L.queue[L.i],p=ALL[id];
+  const jpBlock=`<div class="jp" lang="ja">${esc(p.j)}</div>${p.k&&p.k!==p.j?`<div class="kana" lang="ja">${esc(p.k)}</div>`:""}`;
+  const front=L.dir==="jr"?jpBlock:`<div class="front-ru">${esc(p.t)}</div>`;
+  const back=L.dir==="jr"?`<div class="say">${esc(p.c)}</div><div class="romaji">${esc(p.r)}</div><div class="mean">${esc(p.t)}</div>`:`${jpBlock}<div class="say">${esc(p.c)}</div><div class="romaji">${esc(p.r)}</div>`;
+  return `<div class="learn-top"><button class="chip" data-act="decks">${IC.back}Колоды</button><b>${d.name} · ${L.i+1} из ${L.queue.length}</b></div><div class="progress"><i style="width:${Math.round(L.i/L.queue.length*100)}%"></i></div>
+  <div class="flash">${front}${L.rev?`<div class="divider"></div>${back}`:""}</div>
+  <div class="btns">${L.rev?`<button class="btn" data-act="again">Ещё повторю</button><button class="btn good" data-act="know">Знаю</button>`:`<button class="btn pri wide" data-act="reveal">Показать ответ</button>`}<button class="btn wide" data-act="speak" data-id="${id}">${IC.speaker}Послушать</button></div>`;
+}
+function vLearn(){return `<section><h1>Учить</h1><p class="lead">Посмотри на карточку, вспомни ответ, потом проверь себя. Невыученные карточки идут первыми.</p></section><div id="learn-box">${learnBox()}</div>`}
+function vFav(){
+  const ids=[...favs];
+  if(!ids.length) return `<section><h1>Избранное</h1></section><div class="empty" style="margin-top:16px"><b>Пока пусто</b>Нажимай ★ на любой фразе или слове — они появятся здесь. Так перед поездкой можно собрать свой мини-разговорник.</div>`;
+  const ph=ids.filter(id=>ALL[id].kind!=="w"),wd=ids.filter(id=>ALL[id].kind==="w");
+  return `<section><h1>Избранное</h1><p class="lead">Твой личный разговорник. Хранится только в этом браузере на этом устройстве.</p></section>
+  ${ph.length?`<section class="sec"><h2>Фразы <small>${ph.length}</small></h2><div class="stack">${ph.map(card).join("")}</div></section>`:""}
+  ${wd.length?`<section class="sec"><h2>Слова <small>${wd.length}</small></h2><div class="rows">${wd.map(row).join("")}</div></section>`:""}`;
+}
+const pictos=[["M4 34 L14 12 L22 26 L30 4 L38 26 L44 16","山","гора"],["M22 34 V6 M22 14 L10 26 M22 14 L34 26 M8 14 H36","木","дерево"],["M24 6 L12 34 M22 14 L36 34","人","человек"],["M8 8 H36 V30 H8 Z","口","рот"],["M8 6 H36 V32 H8 Z M8 19 H36","日","солнце"]];
+function vRead(){
+  return `<section><h1>Как читать</h1><p class="lead">Японский пишут сразу тремя азбуками. Звучит страшно, но для поездки хватит понимать, что есть что.</p></section>
+  <section class="sec"><h2>Три азбуки — как три команды</h2><div class="scripts">
+   <div><b lang="ja">ひらがな</b><span>Хирагана</span><p>Круглые значки для японских слов и окончаний: <span lang="ja">すし</span> (суси), <span lang="ja">ありがとう</span>.</p></div>
+   <div><b lang="ja">カタカナ</b><span>Катакана</span><p>Угловатые значки для слов из других языков. Подсказка: они часто похожи на английские! <span lang="ja">コーヒー</span> — коохии (coffee), <span lang="ja">タクシー</span> — такусии (taxi).</p></div>
+   <div><b lang="ja">漢字</b><span>Кандзи</span><p>Иероглифы — значки-картинки из Китая. Один значок — целое слово или идея.</p></div>
+  </div>
+  <figure class="fig" style="margin-top:12px"><h3>Иероглифы когда-то были картинками</h3><div class="picto">${pictos.map(([d,k,r])=>`<div><svg viewBox="0 0 44 38"><path class="st" style="stroke-width:2.5" d="${d}"/></svg><b lang="ja">${k}</b><span>${r}</span></div>`).join("")}</div><figcaption>Сравни: 口 «рот» прячется в табличках 入口 (вход) и 出口 (выход). Вход — это «рот», в который входят.</figcaption></figure></section>
+  <section class="sec"><h2>Как читать русские буквы</h2><div class="prose"><ul>
+   <li><b>Двойная гласная — тяни звук.</b> «аригатоо» = «аригато-о». Это важно: <span lang="ja">おばさん</span> «обасан» — тётя, а <span lang="ja">おばあさん</span> «обаасан» — бабушка!</li>
+   <li><b>«у» и «и» часто почти не слышно</b> в конце слова и между глухими звуками. Поэтому пишем «дэс», «симас», а не «дэсу», «симасу».</li>
+   <li><b>«си» звучит мягко</b>, что-то между «си» и «щи». «дз» — мягкое «дж»: «дзюусу» (сок).</li>
+   <li><b>Звука «л» нет.</b> Японское «р» звучит как что-то среднее между «р» и «л».</li>
+   <li><b>Ударения почти нет.</b> Говори ровно, спокойно и чуть медленнее, чем обычно.</li>
+   <li><b>Хитрые значки:</b> <span lang="ja">は</span> в роли «а вот насчёт…» читается «ва», <span lang="ja">を</span> — «о».</li>
+  </ul></div></section>
+  <section class="sec"><h2>Что показывать на карточках</h2><div class="prose">
+   <div class="setting"><label for="set-kana">Подсказка хираганой над иероглифами</label><input type="checkbox" id="set-kana" data-setting="kana"${S.kana?" checked":""}></div>
+   <div class="setting"><label for="set-romaji">Латиница (romaji)</label><input type="checkbox" id="set-romaji" data-setting="romaji"${S.romaji?" checked":""}></div>
+   <div class="setting"><label for="set-en">Английский запасной вариант</label><input type="checkbox" id="set-en" data-setting="en"${S.en?" checked":""}></div>
+  </div><p class="map-note">Кнопка «Послушать» использует японский голос твоего телефона или компьютера. Если звука нет — добавь японский голос в настройках озвучки устройства.</p></section>
+  <section class="sec"><h2>Откуда всё это</h2><div class="prose"><p>Формат — как в тематических словарях-журналах: слова и фразы по ситуациям, с примерами. Советы о поездке собраны в том числе по материалам путеводителя <a href="https://wrenjapan.com/category/essentials/" target="_blank" rel="noopener">wrenjapan.com</a> (раздел «Самое важное»). Правила вроде Tax Free иногда меняются — перед поездкой проверь свежие новости.</p></div></section>`;
+}
+let lastQ="";
+function vSearch(){return `<section><h1>Поиск</h1><label class="searchbox" for="q">${IC.search}<input id="q" type="search" placeholder="По-русски, латиницей или по-японски" autocomplete="off" enterkeyhint="search"></label></section><div id="qres"></div>`}
+function renderSearch(){
+  const box=document.getElementById("qres");if(!box)return;
+  const q=norm(lastQ.trim());
+  if(!q){box.innerHTML=`<div class="empty" style="margin-top:16px"><b>Что ищем?</b>Например: туалет, вода, eki, ありがとう</div>`;return}
+  const hits=Object.entries(ALL).filter(([id,o])=>o.hay.includes(q));
+  const ph=hits.filter(([,o])=>o.kind==="p"||o.kind==="h").slice(0,40).map(([id])=>id);
+  const wd=hits.filter(([,o])=>o.kind==="w").slice(0,60).map(([id])=>id);
+  if(!ph.length&&!wd.length){box.innerHTML=`<div class="empty" style="margin-top:16px"><b>Ничего не нашлось</b>Попробуй другое слово или загляни в конструктор фраз.</div>`;return}
+  box.innerHTML=`${wd.length?`<section class="sec" style="margin-top:20px"><h2>Слова <small>${wd.length}</small></h2><div class="rows">${wd.map(row).join("")}</div></section>`:""}${ph.length?`<section class="sec" style="margin-top:20px"><h2>Фразы <small>${ph.length}</small></h2><div class="stack">${ph.map(card).join("")}</div></section>`:""}`;
+}
+
+/* ---------- router ---------- */
+function route(){
+  const h=decodeURIComponent((location.hash||"").slice(1))||"home";
+  const i=h.indexOf("-"),v=i<0?h:h.slice(0,i),arg=i<0?"":h.slice(i+1);
+  const V={s:()=>vSit(arg),words:()=>vWords(arg),build:vBuild,learn:vLearn,fav:vFav,read:vRead,search:vSearch};
+  view.innerHTML=(V[v]||vHome)();
+  const tab=v==="s"?"home":v;
+  document.querySelectorAll(".tab").forEach(t=>{const on=t.dataset.tab===tab||(!V[v]&&t.dataset.tab==="home");t.classList.toggle("on",on);if(on)t.setAttribute("aria-current","page");else t.removeAttribute("aria-current")});
+  window.scrollTo({top:0,behavior:"instant"});
+  if(v==="search"){const q=document.getElementById("q");q.value=lastQ;renderSearch();setTimeout(()=>q.focus(),60)}
+}
+window.addEventListener("hashchange",route);
+
+/* ---------- speech ---------- */
+let voices=[];
+function loadVoices(){try{voices=speechSynthesis.getVoices()}catch(e){}}
+if("speechSynthesis" in window){loadVoices();speechSynthesis.onvoiceschanged=loadVoices}
+function speak(text){
+  if(!("speechSynthesis" in window)){toast("Озвучка недоступна в этом браузере");return}
+  try{
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text);u.lang="ja-JP";u.rate=.85;
+    const v=voices.find(v=>/^ja/i.test(v.lang));if(v)u.voice=v;
+    else if(voices.length)toast("На устройстве нет японского голоса — звук может быть неправильным");
+    speechSynthesis.speak(u);
+  }catch(e){toast("Не получилось включить звук")}
+}
+
+/* ---------- show overlay ---------- */
+const show=document.getElementById("show");let showId=null,wakeLock=null,lastFocus=null;
+function openShow(id){
+  const p=ALL[id];showId=id;lastFocus=document.activeElement;
+  const jp=document.getElementById("show-jp");jp.textContent=p.j;jp.dataset.len=p.j.length<=6?"s":p.j.length<=14?"m":"l";
+  document.getElementById("show-kana").textContent=p.k&&p.k!==p.j?p.k:"";
+  document.getElementById("show-en").textContent=p.e||"";
+  document.getElementById("show-ru").innerHTML=`<b>${esc(p.c)}</b> — ${esc(p.t)}`;
+  document.getElementById("show-tools").innerHTML=`<button class="btn" data-act="speak" data-id="${id}">${IC.speaker}Послушать</button><button class="btn fav-btn" data-act="fav" data-id="${id}" aria-pressed="${isFav(id)}">${IC.star}${isFav(id)?"В избранном":"В избранное"}</button>`;
+  show.hidden=false;document.body.classList.add("lock");
+  document.getElementById("show-close").focus();
+  try{navigator.wakeLock&&navigator.wakeLock.request("screen").then(l=>{wakeLock=l}).catch(()=>{})}catch(e){}
+}
+function closeShow(){show.hidden=true;document.body.classList.remove("lock");showId=null;try{wakeLock&&wakeLock.release()}catch(e){}wakeLock=null;if(lastFocus&&lastFocus.focus)lastFocus.focus()}
+
+/* ---------- toast ---------- */
+let tt;function toast(m){const t=document.getElementById("toast");t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>{t.hidden=true},2600)}
+
+/* ---------- events ---------- */
+function toggleFav(id){
+  if(favs.has(id))favs.delete(id);else favs.add(id);
+  store.set("jp-favs",[...favs]);
+  const on=favs.has(id);
+  document.querySelectorAll(`[data-act="fav"][data-id="${id}"]`).forEach(b=>{b.classList.toggle("on",on);b.setAttribute("aria-pressed",on);if(b.classList.contains("fav-btn"))b.innerHTML=IC.star+(on?"В избранном":"В избранное")});
+  toast(on?"Добавлено в избранное":"Убрано из избранного");
+  if((location.hash||"")==="#fav"&&show.hidden){const y=scrollY;view.innerHTML=vFav();scrollTo(0,y)}
+}
+function startDeck(key){
+  const d=deckInfo(key);if(!d.ids.length)return;
+  L.deck=key;L.i=0;L.rev=false;
+  const un=d.ids.filter(id=>!known.has(id)),kn=d.ids.filter(id=>known.has(id));
+  L.queue=[...shuffle(un),...shuffle(kn)];
+}
+const reLearn=()=>{const b=document.getElementById("learn-box");if(b)b.innerHTML=learnBox()};
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-act]");if(!b)return;
+  const a=b.dataset.act,id=b.dataset.id;
+  if(a==="speak")speak(spoken(ALL[id]));
+  else if(a==="say")speak(b.dataset.text);
+  else if(a==="fav")toggleFav(id);
+  else if(a==="show")openShow(id);
+  else if(a==="close-show")closeShow();
+  else if(a==="jump"){const t=document.getElementById(b.dataset.target);if(t)t.scrollIntoView({block:"start"})}
+  else if(a==="tpl"){B={t:+b.dataset.i,i:0};document.getElementById("build-box").innerHTML=buildBox()}
+  else if(a==="item"){B.i=+b.dataset.i;document.getElementById("build-box").innerHTML=buildBox()}
+  else if(a==="dir"){L.dir=b.dataset.dir;reLearn()}
+  else if(a==="deck"){startDeck(b.dataset.deck);reLearn();scrollTo(0,0)}
+  else if(a==="decks"){L.deck=null;reLearn()}
+  else if(a==="reveal"){L.rev=true;reLearn()}
+  else if(a==="know"||a==="again"){const cid=L.queue[L.i];if(a==="know")known.add(cid);else{known.delete(cid);L.queue.push(cid)}store.set("jp-known",[...known]);L.i++;L.rev=false;reLearn()}
+  else if(a==="restart"){startDeck(L.deck);reLearn()}
+  else if(a==="copy"){const txt=b.dataset.copy;const sel=()=>{const el=document.getElementById("hotline-num");const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);toast("Номер выделен — скопируй его")};try{navigator.clipboard.writeText(txt).then(()=>toast("Номер скопирован"),sel)}catch(err){sel()}}
+});
+document.addEventListener("change",e=>{const k=e.target.dataset&&e.target.dataset.setting;if(!k)return;S[k]=e.target.checked;store.set("jp-settings",S);applySettings()});
+document.addEventListener("input",e=>{if(e.target.id==="q"){lastQ=e.target.value;renderSearch()}});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!show.hidden)closeShow()});
+route();
+</script>
