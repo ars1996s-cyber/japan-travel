@@ -50,7 +50,8 @@ const IC={
  chev:'<svg class="ic" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>',
  search:'<svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>',
  copy:'<svg class="ic" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg>',
- install:'<svg class="ic" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 17v3h16v-3"/></svg>'
+ install:'<svg class="ic" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 17v3h16v-3"/></svg>',
+ translate:'<svg class="ic" viewBox="0 0 24 24"><path d="M3 5h10M8 3v2M5 5c1 4 4 7 7 8M11 5c-1 4-4 7-8 9"/><path d="M13 21l4-10 4 10M14.5 17.5h5"/></svg>'
 };
 const badge=(s,big)=>`<span class="badge${big?" big":""}" style="--lc:${s.col}"><b>${s.L}</b><i>${String(P.SITS.indexOf(s)+1).padStart(2,"0")}</i></span>`;
 const favLabel=f=>f?"Сохранено":"Сохранить";
@@ -81,11 +82,25 @@ function installTile(){
 
 /* ---------- views ---------- */
 const view=document.getElementById("view");
+/* long lists show a preview; the rest unfolds in place. Open lists stay open across re-renders */
+const OPEN=new Set();
+const NOUN={ph:["фразу","фразы","фраз"],w:["слово","слова","слов"]};
+const moreLabel=(open,n,noun)=>open?"Свернуть":`Показать ещё ${n} ${plural(n,NOUN[noun])}`;
+function more(key,html,limit,cls,noun,inline){
+  if(html.length-limit<3)limit=html.length; /* hiding one or two items saves nothing */
+  const extra=html.length-limit,open=OPEN.has(key);
+  const items=html.map((h,i)=>i<limit?h:h.replace(/^<(\w+) class="/,'<$1 class="extra ')).join("");
+  const btn=extra>0?`<button class="more${inline?" inline":""}" data-act="more" data-key="${key}" data-n="${extra}" data-noun="${noun}" aria-expanded="${open}">${moreLabel(open,extra,noun)}</button>`:"";
+  return `<div class="${cls} clp${open?" open":""}" data-clp="${key}">${items}${inline?btn:""}</div>${inline?"":btn}`;
+}
+/* the viewer's saved items first (newest first), then the pack's defaults */
+const quickIds=()=>[...[...favs].reverse(),...P.QUICK.filter(id=>!favs.has(id))];
+const gtLink=raw=>{const ru=/[а-яё]/i.test(raw);return `https://translate.google.com/?sl=${ru?"ru":"auto"}&tl=${ru?P.id:"ru"}&text=${encodeURIComponent(raw)}&op=translate`};
 function vHome(){
   const nP=Object.values(ALL).filter(o=>o.kind==="p"||o.kind==="h").length, nW=Object.values(ALL).filter(o=>o.kind==="w").length;
   return `<section class="hero"><span class="eyebrow">${P.eyebrow}</span><h1>${P.title}</h1><p class="lead">${P.lead}</p><div class="stats"><span>${P.SITS.length} ситуаций</span><span>${nP} ${plural(nP,["фраза","фразы","фраз"])}</span><span>${nW} ${plural(nW,["слово","слова","слов"])}</span></div></section>
   <div id="install-slot">${installTile()}</div>
-  <section class="sec"><h2>Нужно прямо сейчас</h2><div class="quick">${P.QUICK.map(id=>{const p=ALL[id];return `<button class="qchip" data-act="show" data-id="${id}"><span class="q-jp" lang="${P.id}">${esc(p.j)}</span><span class="q-ru">${esc(p.t.split(" / ")[0])}</span></button>`}).join("")}</div></section>
+  <section class="sec"><h2>Нужно прямо сейчас</h2>${favs.size?"":`<p class="hint">Нажимай «Сохранить» на нужных фразах — они появятся здесь первыми.</p>`}${more("quick",quickIds().map(id=>{const p=ALL[id];return `<button class="qchip${favs.has(id)?" mine":""}" data-act="show" data-id="${id}"><span class="q-jp" lang="${P.id}">${esc(p.j)}</span><span class="q-ru">${favs.has(id)?IC.star:""}${esc(p.t.split(" / ")[0])}</span></button>`}),8,"quick","ph",true)}</section>
   <section class="sec"><h2>Маршрут поездки</h2><div class="linemap">${P.SITS.map(s=>{const n=s.phrases.length+s.hear.length;return `<a class="stop" href="#s-${s.id}" style="--lc:${s.col}">${badge(s)}<span><span class="stop-t">${s.title}</span><span class="stop-s">${s.sub}</span></span><span class="stop-n">${n} ${plural(n,["фраза","фразы","фраз"])}${IC.chev}</span></a>`}).join("")}</div><p class="map-note">${P.mapNote}</p></section>
   <section class="sec"><h2>Инструменты</h2><div class="tools-grid">
     <a class="tool-tile" href="#build"><span class="tt-jp" lang="${P.id}">${P.builderJp}</span><b>Конструктор фраз</b><span>Собери свою фразу из слова и «хвостика»</span></a>
@@ -104,8 +119,8 @@ function vSit(id){
   <div class="track">${badge(s,true)}${next?`<a class="nexttag" href="#s-${next.id}" style="--lc:${next.col}">Дальше: ${next.title}</a>`:""}</div>
   <h1>${s.title}</h1><p class="lead">${s.intro}</p>
   <div class="jump">${jumps.map(([t,l])=>`<button class="chip" data-act="jump" data-target="${t}">${l}</button>`).join("")}</div>
-  <section class="sec" id="sec-phrases"><h2>Фразы <small>${s.phrases.length}</small></h2><p class="hint">Нажми на японский текст — он откроется крупно, чтобы показать собеседнику.</p><div class="stack">${s.phrases.map((_,k)=>card(`p-${s.id}-${k}`)).join("")}</div></section>
-  ${s.hear.length?`<section class="sec" id="sec-hear"><h2>Что тебе скажут</h2><p class="lead" style="margin:-4px 0 12px">Эти фразы говорить не нужно — важно понять их на слух.</p><div class="stack">${s.hear.map((_,k)=>card(`h-${s.id}-${k}`)).join("")}</div></section>`:""}
+  <section class="sec" id="sec-phrases"><h2>Фразы <small>${s.phrases.length}</small></h2><p class="hint">Нажми на японский текст — он откроется крупно, чтобы показать собеседнику.</p>${more("ph-"+s.id,s.phrases.map((_,k)=>card(`p-${s.id}-${k}`)),6,"stack","ph")}</section>
+  ${s.hear.length?`<section class="sec" id="sec-hear"><h2>Что тебе скажут</h2><p class="lead" style="margin:-4px 0 12px">Эти фразы говорить не нужно — важно понять их на слух.</p>${more("h-"+s.id,s.hear.map((_,k)=>card(`h-${s.id}-${k}`)),3,"stack","ph")}</section>`:""}
   <section class="sec" id="sec-dialog"><h2>Как это звучит</h2><div class="dlg"><div class="dlg-title">Ты и ${s.dialog.them.toLowerCase()}</div>${s.dialog.lines.map(([w,j,c,t])=>`<div class="bub ${w}"><span class="who">${w==="y"?"Ты":s.dialog.them}</span><div><div class="jp" lang="${P.id}">${esc(j)}</div><div class="say">${say(c)}</div><div class="mean">${esc(t)}</div></div><button class="tool" data-act="say" data-text="${esc(j)}" aria-label="Слушать" title="Слушать">${IC.speaker}</button></div>`).join("")}</div></section>
   <section class="sec" id="sec-tips"><h2>Полезно знать</h2><ul class="tips">${s.tips.map(t=>`<li>${esc(t)}</li>`).join("")}</ul>${s.ill.length?`<div class="figs">${s.ill.map(k=>P.ILL[k]()).join("")}</div>`:""}${s.src?`<p class="src">Подробнее: <a href="${s.src}" target="_blank" rel="noopener">статья на wrenjapan.com</a></p>`:""}</section>
   <section class="sec" id="sec-words"><h2>Слова по теме</h2><div class="chips-wrap">${s.words.map(c=>{const cat=P.CATS.find(x=>x.id===c);return `<a class="chip" href="#words-${c}">${cat.title} <span class="cnt">${cat.ids.length}</span></a>`}).join("")}</div></section>
@@ -116,7 +131,7 @@ function vWords(cat){
   const chips=`<div class="jump"><a class="chip${!c?" on":""}" href="#words">Все</a>${P.CATS.map(x=>`<a class="chip${c&&c.id===x.id?" on":""}" href="#words-${x.id}">${x.title}</a>`).join("")}</div>`;
   const block=x=>`${x.intro?`<p class="cat-intro">${esc(x.intro)}</p>`:""}<div class="rows">${x.ids.map(row).join("")}</div>`;
   return `<section><h1>Словарь</h1><p class="lead">${Object.values(ALL).filter(o=>o.kind==="w").length} слов по темам. Нажми на слово — оно откроется крупно. Кнопка со звуком — послушать, звёздочка — сохранить в избранное.</p>${chips}</section>
-  ${c?`<section class="sec" style="margin-top:16px"><h2 style="margin-bottom:12px">${c.title}</h2>${block(c)}</section>`:P.CATS.map(x=>`<section class="sec" style="margin-top:22px"><h2 style="margin-bottom:10px">${x.title}</h2>${block(x)}</section>`).join("")}`;
+  ${c?`<section class="sec" style="margin-top:16px"><h2 style="margin-bottom:12px">${c.title}</h2>${block(c)}</section>`:P.CATS.map(x=>`<section class="sec" style="margin-top:22px"><h2 style="margin-bottom:10px"><a class="cat-link" href="#words-${x.id}">${x.title}${IC.chev}</a> <small>${x.ids.length}</small></h2>${more("w-"+x.id,x.ids.map(row),4,"rows","w")}</section>`).join("")}`;
 }
 let B={t:0,i:0};
 function buildBox(){
@@ -161,8 +176,8 @@ function vFav(){
   if(!ids.length) return `<section><h1>Избранное</h1></section><div class="empty" style="margin-top:16px"><b>Пока пусто</b>Нажимай «Сохранить» на любой фразе или звёздочку у слова — они появятся здесь. Так перед поездкой можно собрать свой мини-разговорник.</div>`;
   const ph=ids.filter(id=>ALL[id].kind!=="w"),wd=ids.filter(id=>ALL[id].kind==="w");
   return `<section><h1>Избранное</h1><p class="lead">Твой личный разговорник. Хранится только на этом устройстве.</p></section>
-  ${ph.length?`<section class="sec"><h2>Фразы <small>${ph.length}</small></h2><div class="stack">${ph.map(card).join("")}</div></section>`:""}
-  ${wd.length?`<section class="sec"><h2>Слова <small>${wd.length}</small></h2><div class="rows">${wd.map(row).join("")}</div></section>`:""}`;
+  ${ph.length?`<section class="sec"><h2>Фразы <small>${ph.length}</small></h2>${more("fav-ph",ph.map(card),6,"stack","ph")}</section>`:""}
+  ${wd.length?`<section class="sec"><h2>Слова <small>${wd.length}</small></h2>${more("fav-w",wd.map(row),8,"rows","w")}</section>`:""}`;
 }
 function vRead(){
   const total=Object.keys(AUD).length;
@@ -185,16 +200,17 @@ async function offlineStatus(){
   }catch(e){}
 }
 let lastQ="";
-function vSearch(){return `<section><h1>Поиск</h1><label class="searchbox" for="q">${IC.search}<input id="q" type="search" placeholder="По-русски, латиницей или по-японски" autocomplete="off" enterkeyhint="search"></label></section><div id="qres"></div>`}
+function vSearch(){return `<section><h1>Поиск и перевод</h1><label class="searchbox" for="q">${IC.search}<input id="q" type="search" placeholder="Найти фразу или слово" autocomplete="off" enterkeyhint="search"></label></section><div id="qres"></div>`}
 function renderSearch(){
   const box=document.getElementById("qres");if(!box)return;
-  const q=norm(lastQ.trim());
-  if(!q){box.innerHTML=`<div class="empty" style="margin-top:16px"><b>Что ищем?</b>Например: туалет, вода, eki, ありがとう</div>`;return}
+  const raw=lastQ.trim(),q=norm(raw);
+  if(!q){box.innerHTML=`<div class="empty" style="margin-top:16px"><b>Что ищем?</b>Например: туалет, вода, eki, ありがとう<br><br>Нет нужной фразы? Напиши её по-русски — и открой перевод в Google Переводчике.</div><p class="map-note">Совет: в приложении Google Переводчик скачай ${P.name.toLowerCase()} для работы без интернета, а меню и вывески переводи камерой.</p>`;return}
+  const gt=`<a class="gt" href="${esc(gtLink(raw))}" target="_blank" rel="noopener">${IC.translate}<span><b>Перевести «${esc(raw)}»</b><small>Откроется Google Переводчик, нужен интернет</small></span></a>`;
   const hits=Object.entries(ALL).filter(([,o])=>o.hay.includes(q));
   const ph=hits.filter(([,o])=>o.kind==="p"||o.kind==="h").slice(0,40).map(([id])=>id);
   const wd=hits.filter(([,o])=>o.kind==="w").slice(0,60).map(([id])=>id);
-  if(!ph.length&&!wd.length){box.innerHTML=`<div class="empty" style="margin-top:16px"><b>Ничего не нашлось</b>Попробуй другое слово или загляни в конструктор фраз.</div>`;return}
-  box.innerHTML=`${wd.length?`<section class="sec" style="margin-top:20px"><h2>Слова <small>${wd.length}</small></h2><div class="rows">${wd.map(row).join("")}</div></section>`:""}${ph.length?`<section class="sec" style="margin-top:20px"><h2>Фразы <small>${ph.length}</small></h2><div class="stack">${ph.map(card).join("")}</div></section>`:""}`;
+  if(!ph.length&&!wd.length){box.innerHTML=`<div class="empty" style="margin-top:16px"><b>В разговорнике такого нет</b>Попробуй другое слово, загляни в конструктор фраз или переведи через Google.</div>${gt}`;return}
+  box.innerHTML=gt+`${wd.length?`<section class="sec" style="margin-top:20px"><h2>Слова <small>${wd.length}</small></h2>${more("q-w",wd.map(row),6,"rows","w")}</section>`:""}${ph.length?`<section class="sec" style="margin-top:20px"><h2>Фразы <small>${ph.length}</small></h2>${more("q-ph",ph.map(card),4,"stack","ph")}</section>`:""}`;
 }
 
 /* ---------- router ---------- */
@@ -275,6 +291,7 @@ document.addEventListener("click",e=>{
   else if(a==="fav")toggleFav(id);
   else if(a==="show")openShow(id);
   else if(a==="close-show")closeShow();
+  else if(a==="more"){const k=b.dataset.key,box=document.querySelector(`[data-clp="${k}"]`),open=!OPEN.has(k);if(open)OPEN.add(k);else OPEN.delete(k);box.classList.toggle("open",open);b.setAttribute("aria-expanded",open);b.textContent=moreLabel(open,+b.dataset.n,b.dataset.noun);if(!open&&box.getBoundingClientRect().top<0)box.scrollIntoView({block:"start"})}
   else if(a==="jump"){const t=document.getElementById(b.dataset.target);if(t)t.scrollIntoView({block:"start"})}
   else if(a==="tpl"){B={t:+b.dataset.i,i:0};document.getElementById("build-box").innerHTML=buildBox()}
   else if(a==="item"){B.i=+b.dataset.i;document.getElementById("build-box").innerHTML=buildBox()}
@@ -292,7 +309,7 @@ document.addEventListener("keydown",e=>{
   if((e.key==="Enter"||e.key===" ")&&e.target.matches('[role="button"][data-act]')){e.preventDefault();e.target.click()}
 });
 document.addEventListener("change",e=>{const k=e.target.dataset&&e.target.dataset.setting;if(!k)return;S[k]=e.target.checked;store.set("gl-settings",S);applySettings()});
-document.addEventListener("input",e=>{if(e.target.id==="q"){lastQ=e.target.value;renderSearch()}});
+document.addEventListener("input",e=>{if(e.target.id==="q"){lastQ=e.target.value;OPEN.delete("q-w");OPEN.delete("q-ph");renderSearch()}});
 
 document.title=P.title;
 document.getElementById("brand-native").textContent=P.native;

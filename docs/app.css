@@ -314,3 +314,24 @@ h2{font-weight:900;font-size:1.3rem;line-height:1.2}
 .install b{display:block;font-weight:900}
 .install small{display:block;color:var(--muted);font-size:.86rem;font-weight:700}
 .show-tools .btn .ic{width:20px;height:20px}
+
+/* quick phrases: viewer's saved ones are marked; with a mouse, chip rows wrap instead of scrolling */
+.qchip.mine{border-color:var(--accent)}
+.q-ru{display:flex;align-items:center;gap:4px}
+.q-ru .ic{width:13px;height:13px;color:var(--accent);fill:currentColor}
+@media (hover:hover) and (pointer:fine){
+  .quick,.jump{flex-wrap:wrap;overflow-x:visible}
+}
+.gt{display:flex;align-items:center;gap:12px;margin-top:16px;padding:12px 14px;border-radius:var(--r);border:1px solid var(--line);background:var(--surface);text-decoration:none}
+.gt .ic{width:24px;height:24px;color:var(--accent)}
+.gt span{min-width:0}
+.gt b{display:block;font-weight:900;overflow-wrap:anywhere}
+.gt small{display:block;color:var(--muted);font-size:.84rem;font-weight:700}
+
+/* preview lists: extra items stay hidden until «Показать ещё» */
+.clp:not(.open) .extra{display:none}
+.more{display:flex;align-items:center;justify-content:center;width:100%;margin-top:10px;padding:11px 14px;border-radius:12px;border:1px dashed var(--line);background:transparent;font-weight:800;font-size:.92rem;color:var(--accent);cursor:pointer}
+.more:hover{background:var(--surface)}
+.more.inline{width:auto;margin:0;flex:none;border-radius:14px;padding:10px 16px;white-space:nowrap}
+.cat-link{display:inline-flex;align-items:center;gap:2px;text-decoration:none}
+.cat-link .ic{width:18px;height:18px;color:var(--muted)}
