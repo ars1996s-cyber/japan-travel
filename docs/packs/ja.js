@@ -766,6 +766,8 @@ const longMark=c=>c.replace(/([аоуэияюё])(?=([аоуэиюа]))/g,(m,v,n
 self.GL_PACKS.ja={id:"ja",lang:"ja-JP",name:"Японский",native:"日本語",title:"Японский в кармане",eyebrow:"Разговорник для поездки",
  lead:"Самые нужные слова и фразы — просто и понятно. Выучи заранее, а в Японии открывай нужную ситуацию и показывай фразу на экране.",
  mapNote:"Каждая тема окрашена в цвет настоящей линии токийского метро, а номер — как номер станции на табличках.",
+ /* dictionary topics in order of usefulness on the trip; the first ones are shown in previews */
+ catOrder:["signs","food","places","transport","money","nums","questions","pointers","hotel","health","count","time","taste","adj","verbs","people","colors","nature"],
  kanaLabel:"Подсказка хираганой над иероглифами",signsCat:"signs",signsJp:"出口",builderJp:"～ください",learnJp:"覚える",readJp:"あア漢",
  source:`Советы о поездке собраны в том числе по материалам путеводителя <a href="https://wrenjapan.com/category/essentials/" target="_blank" rel="noopener">wrenjapan.com</a> (раздел «Самое важное»). Правила вроде Tax Free иногда меняются — перед поездкой проверь свежие новости. Озвучка — синтезированный голос.`,
  fixSpeech:t=>t.replace(/Suica/g,"スイカ"),

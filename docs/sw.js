@@ -1,5 +1,7 @@
-/* Offline support: app files refresh in the background, audio and fonts are kept once downloaded */
-const CORE = "gl-core-v1", AUDIO = "gl-audio-v1", FONTS = "gl-fonts-v1";
+/* Offline support: app files come fresh from the network when online (cache is the offline fallback),
+   audio and fonts are kept once downloaded */
+const CORE = "gl-core-v2", AUDIO = "gl-audio-v1", FONTS = "gl-fonts-v1";
+const NET_TIMEOUT = 3500;
 const PACKS = ["ja"];
 const CORE_FILES = ["./", "index.html", "app.css", "app.js", "manifest.json",
   "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png",
@@ -46,7 +48,7 @@ self.addEventListener("fetch", e => {
   }
   if (url.origin !== location.origin) return;
   if (url.pathname.includes("/audio/")) { e.respondWith(cacheFirst(AUDIO, req)); return; }
-  e.respondWith(staleWhileRevalidate(req));
+  e.respondWith(networkFirst(req));
 });
 async function cacheFirst(name, req) {
   const c = await caches.open(name);
@@ -56,10 +58,18 @@ async function cacheFirst(name, req) {
   if (res.ok || res.type === "opaque") c.put(req, res.clone());
   return res;
 }
-async function staleWhileRevalidate(req) {
+async function networkFirst(req) {
   const c = await caches.open(CORE);
   const key = req.mode === "navigate" ? "index.html" : req;
-  const hit = await c.match(key, { ignoreSearch: true });
-  const net = fetch(req).then(res => { if (res.ok) c.put(key, res.clone()); return res; }).catch(() => null);
-  return hit || (await net) || new Response("Нет соединения", { status: 503 });
+  try {
+    const res = await Promise.race([
+      fetch(req, { cache: "no-cache" }),
+      new Promise((_, no) => setTimeout(() => no(new Error("slow network")), NET_TIMEOUT))
+    ]);
+    if (res.ok) c.put(key, res.clone());
+    return res;
+  } catch (err) {
+    const hit = await c.match(key, { ignoreSearch: true });
+    return hit || new Response("Нет соединения", { status: 503 });
+  }
 }

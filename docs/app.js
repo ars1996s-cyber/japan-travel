@@ -13,6 +13,7 @@ P.SITS.forEach(s=>{
   s.phrases.forEach((p,i)=>{ALL[`p-${s.id}-${i}`]={kind:"p",sid:s.id,...mk(p)}});
   s.hear.forEach((p,i)=>{ALL[`h-${s.id}-${i}`]={kind:"h",sid:s.id,...mk(p)}});
 });
+if(P.catOrder){const rank=id=>{const i=P.catOrder.indexOf(id);return i<0?999:i};P.CATS.sort((a,b)=>rank(a.id)-rank(b.id))}
 P.CATS.forEach(c=>{
   c.ids=[];
   c.d.trim().split("\n").forEach((l,i)=>{const id=`w-${c.id}-${i}`;ALL[id]={kind:"w",cat:c.id,...mk(l.split("|"))};c.ids.push(id)});
@@ -84,13 +85,13 @@ function installTile(){
 const view=document.getElementById("view");
 /* long lists show a preview; the rest unfolds in place. Open lists stay open across re-renders */
 const OPEN=new Set();
-const NOUN={ph:["фразу","фразы","фраз"],w:["слово","слова","слов"]};
-const moreLabel=(open,n,noun)=>open?"Свернуть":`Показать ещё ${n} ${plural(n,NOUN[noun])}`;
+const NOUN={ph:["фразу","фразы","фраз"],w:["слово","слова","слов"],t:["тема","темы","тем"]};
+const moreLabel=(open,n,noun,inline)=>open?"Свернуть":`${inline?"Ещё":"Показать ещё"} ${n} ${plural(n,NOUN[noun])}`;
 function more(key,html,limit,cls,noun,inline){
   if(html.length-limit<3)limit=html.length; /* hiding one or two items saves nothing */
   const extra=html.length-limit,open=OPEN.has(key);
   const items=html.map((h,i)=>i<limit?h:h.replace(/^<(\w+) class="/,'<$1 class="extra ')).join("");
-  const btn=extra>0?`<button class="more${inline?" inline":""}" data-act="more" data-key="${key}" data-n="${extra}" data-noun="${noun}" aria-expanded="${open}">${moreLabel(open,extra,noun)}</button>`:"";
+  const btn=extra>0?`<button class="more${inline?" inline":""}" data-act="more" data-key="${key}" data-n="${extra}" data-noun="${noun}" aria-expanded="${open}">${moreLabel(open,extra,noun,inline)}</button>`:"";
   return `<div class="${cls} clp${open?" open":""}" data-clp="${key}">${items}${inline?btn:""}</div>${inline?"":btn}`;
 }
 /* the viewer's saved items first (newest first), then the pack's defaults */
@@ -128,7 +129,10 @@ function vSit(id){
 }
 function vWords(cat){
   const c=P.CATS.find(x=>x.id===cat);
-  const chips=`<div class="jump"><a class="chip${!c?" on":""}" href="#words">Все</a>${P.CATS.map(x=>`<a class="chip${c&&c.id===x.id?" on":""}" href="#words-${x.id}">${x.title}</a>`).join("")}</div>`;
+  /* «Все» + the most useful topics; a topic picked from the hidden part keeps the list open */
+  const TOPICS=7;
+  if(c&&P.CATS.indexOf(c)>=TOPICS-1)OPEN.add("topics");
+  const chips=more("topics",[`<a class="chip${!c?" on":""}" href="#words">Все</a>`,...P.CATS.map(x=>`<a class="chip${c&&c.id===x.id?" on":""}" href="#words-${x.id}">${x.title}</a>`)],TOPICS,"jump","t",true);
   const block=x=>`${x.intro?`<p class="cat-intro">${esc(x.intro)}</p>`:""}<div class="rows">${x.ids.map(row).join("")}</div>`;
   return `<section><h1>Словарь</h1><p class="lead">${Object.values(ALL).filter(o=>o.kind==="w").length} слов по темам. Нажми на слово — оно откроется крупно. Кнопка со звуком — послушать, звёздочка — сохранить в избранное.</p>${chips}</section>
   ${c?`<section class="sec" style="margin-top:16px"><h2 style="margin-bottom:12px">${c.title}</h2>${block(c)}</section>`:P.CATS.map(x=>`<section class="sec" style="margin-top:22px"><h2 style="margin-bottom:10px"><a class="cat-link" href="#words-${x.id}">${x.title}${IC.chev}</a> <small>${x.ids.length}</small></h2>${more("w-"+x.id,x.ids.map(row),4,"rows","w")}</section>`).join("")}`;
@@ -157,7 +161,7 @@ function learnBox(){
   if(!L.deck) return `<div class="seg" role="group" aria-label="Сторона карточки"><button class="${L.dir==="jr"?"on":""}" data-act="dir" data-dir="jr">${P.name} → русский</button><button class="${L.dir==="rj"?"on":""}" data-act="dir" data-dir="rj">Русский → ${P.name.toLowerCase()}</button></div>
   <div class="deck-h">Своя колода</div><div class="chips-wrap">${deckChip("fav")}</div>
   <div class="deck-h">Ситуации</div><div class="chips-wrap">${P.SITS.map(s=>deckChip("s:"+s.id)).join("")}</div>
-  <div class="deck-h">Слова</div><div class="chips-wrap">${P.CATS.map(c=>deckChip("w:"+c.id)).join("")}</div>
+  <div class="deck-h">Слова</div>${more("deck-topics",P.CATS.map(c=>deckChip("w:"+c.id)),6,"chips-wrap","t",true)}
   <p class="map-note">Цифры показывают, сколько карточек ты уже отметил «Знаю». Отметки хранятся только на этом устройстве.</p>`;
   const d=deckInfo(L.deck);
   const kn=d.ids.filter(id=>known.has(id)).length;
@@ -291,7 +295,7 @@ document.addEventListener("click",e=>{
   else if(a==="fav")toggleFav(id);
   else if(a==="show")openShow(id);
   else if(a==="close-show")closeShow();
-  else if(a==="more"){const k=b.dataset.key,box=document.querySelector(`[data-clp="${k}"]`),open=!OPEN.has(k);if(open)OPEN.add(k);else OPEN.delete(k);box.classList.toggle("open",open);b.setAttribute("aria-expanded",open);b.textContent=moreLabel(open,+b.dataset.n,b.dataset.noun);if(!open&&box.getBoundingClientRect().top<0)box.scrollIntoView({block:"start"})}
+  else if(a==="more"){const k=b.dataset.key,box=document.querySelector(`[data-clp="${k}"]`),open=!OPEN.has(k);if(open)OPEN.add(k);else OPEN.delete(k);box.classList.toggle("open",open);b.setAttribute("aria-expanded",open);b.textContent=moreLabel(open,+b.dataset.n,b.dataset.noun,b.classList.contains("inline"));if(!open&&box.getBoundingClientRect().top<0)box.scrollIntoView({block:"start"})}
   else if(a==="jump"){const t=document.getElementById(b.dataset.target);if(t)t.scrollIntoView({block:"start"})}
   else if(a==="tpl"){B={t:+b.dataset.i,i:0};document.getElementById("build-box").innerHTML=buildBox()}
   else if(a==="item"){B.i=+b.dataset.i;document.getElementById("build-box").innerHTML=buildBox()}
@@ -317,7 +321,10 @@ document.getElementById("brand-native").lang=P.id;
 route();
 
 if("serviceWorker" in navigator && (location.protocol==="https:"||location.hostname==="localhost"||location.hostname==="127.0.0.1")){
-  navigator.serviceWorker.register("sw.js").catch(()=>{});
+  /* a newer service worker took over: reload once so the page runs the new version */
+  const hadController=!!navigator.serviceWorker.controller;let reloading=false;
+  navigator.serviceWorker.addEventListener("controllerchange",()=>{if(hadController&&!reloading){reloading=true;location.reload()}});
+  navigator.serviceWorker.register("sw.js",{updateViaCache:"none"}).catch(()=>{});
   navigator.serviceWorker.ready.then(r=>{r.active&&r.active.postMessage("cache-audio")});
   setInterval(()=>{if(location.hash==="#read")offlineStatus()},4000);
 }
